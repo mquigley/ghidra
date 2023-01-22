@@ -496,6 +496,7 @@ public class CallDepthChangeInfo {
 		if (func.isThunk()) {
 			return;
 		}
+		Msg.debug(this, "followFlows for " + func);
 
 		// if extrapop is has an unknown purge, check for a purge on return instructions
 		int purge = (short) program.getCompilerSpec().getDefaultCallingConvention().getExtrapop();
@@ -540,6 +541,7 @@ public class CallDepthChangeInfo {
 						else {
 							stackPurge = 0;
 						}
+						Msg.debug(this, "Setting stack purge of " + func + " to " + stackPurge);
 					}
 				}
 

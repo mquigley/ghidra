@@ -64,8 +64,8 @@ public class DecompileProcess {
 
 	// Note: volatile for variables modified when we shutdown, potential from different thread
 	private volatile Process nativeProcess;
-	private volatile InputStream nativeIn;   // Input from decompiler
-	private volatile OutputStream nativeOut; // Output to decompiler
+	private volatile MyInputStream nativeIn;   // Input from decompiler
+	private volatile MyOutputStream nativeOut; // Output to decompiler
 	private volatile boolean statusGood;     // true if decompiler process is running
 
 	private int archId = -1;              // architecture id for decomp process
@@ -133,8 +133,8 @@ public class DecompileProcess {
 		try {
 			nativeProcess = runtime.exec(exepath);
 
-			nativeIn = nativeProcess.getInputStream();
-			nativeOut = nativeProcess.getOutputStream();
+			nativeIn = new MyInputStream(nativeProcess.getInputStream());
+			nativeOut = new MyOutputStream(nativeProcess.getOutputStream());
 			statusGood = true;
 		}
 		catch (IOException e) {
@@ -491,11 +491,19 @@ public class DecompileProcess {
 			writeString(Integer.toString(archId));
 			write(command_end);
 			readResponse(response);
+			
+			logBuffers("sendCommand");
 		}
 		catch (IOException e) {
 			statusGood = false;
 			throw e;
 		}
+	}
+
+	private void logBuffers(String title) {
+		Msg.debug(this, title + "\nWrite " + nativeOut.getBuffer()+"\nRead " + nativeIn.getBuffer());
+		nativeOut.clearBuffer();
+		nativeIn.clearBuffer();
 	}
 
 	public synchronized boolean isReady() {
@@ -530,6 +538,8 @@ public class DecompileProcess {
 			writeString(encodeSet.mainQuery);
 			write(command_end);
 			readResponse(encodeSet.mainResponse);
+			
+			logBuffers("sendCommandTimeout");
 		}
 		catch (IOException e) {
 			statusGood = false;
@@ -575,6 +585,9 @@ public class DecompileProcess {
 			writeString(param2);
 			write(command_end);
 			readResponse(response);
+			
+			logBuffers("sendCommand2Params");
+
 		}
 		catch (IOException e) {
 			statusGood = false;
@@ -613,6 +626,8 @@ public class DecompileProcess {
 			writeString(param1);
 			write(command_end);
 			readResponse(response);
+			
+			logBuffers("sendCommand1Param");
 		}
 		catch (IOException e) {
 			statusGood = false;
@@ -642,6 +657,8 @@ public class DecompileProcess {
 			writeString(param1);
 			write(command_end);
 			readResponse(response);
+
+			logBuffers("sendCommand1Param 2");
 		}
 		catch (IOException e) {
 			statusGood = false;
