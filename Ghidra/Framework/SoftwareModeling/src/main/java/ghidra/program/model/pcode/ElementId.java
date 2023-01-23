@@ -15,6 +15,8 @@
  */
 package ghidra.program.model.pcode;
 
+import java.util.HashMap;
+
 /**
  * An annotation for a specific collection of hierarchical data
  *
@@ -30,24 +32,24 @@ package ghidra.program.model.pcode;
  */
 public record ElementId(String name, int id) {
 
-//	private static HashMap<String, ElementId> lookupElementId = new HashMap<>();
+	private static HashMap<String, ElementId> lookupElementId = new HashMap<>();
 
-//	public ElementId {
-//		// add new element to lookup map
-//		if (null != lookupElementId.put(name, this)) {
-//			throw new RuntimeException("Duplicate ElementId instance: " + name);
-//		}
-//	}
+	public ElementId {
+		// add new element to lookup map
+		if (null != lookupElementId.put(name, this)) {
+			throw new RuntimeException("Duplicate ElementId instance: " + name);
+		}
+	}
 
-//	/**
-//	 * Find the id associated with a specific element name
-//	 * @param nm the element name
-//	 * @return the associated id
-//	 */
-//	public static int find(String nm) {
-//		ElementId res = lookupElementId.getOrDefault(nm, ELEM_UNKNOWN);
-//		return res.id;
-//	}
+	/**
+	 * Find the id associated with a specific element name
+	 * @param nm the element name
+	 * @return the associated id
+	 */
+	public static int find(String nm) {
+		ElementId res = lookupElementId.getOrDefault(nm, ELEM_UNKNOWN);
+		return res.id;
+	}
 
 	public static final ElementId ELEM_DATA = new ElementId("data", 1);
 	public static final ElementId ELEM_INPUT = new ElementId("input", 2);

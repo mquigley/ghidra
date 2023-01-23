@@ -45,16 +45,20 @@ import ghidra.util.timer.GTimerMonitor;
 public class DecompileProcess {
 
 	//	public static DecompileProcess decompProcess = null;
-	private final static byte[] command_start = { 0, 0, 1, 2 };
-	private final static byte[] command_end = { 0, 0, 1, 3 };
-	private final static byte[] query_response_start = { 0, 0, 1, 8 };
-	private final static byte[] query_response_end = { 0, 0, 1, 9 };
-	private final static byte[] string_start = { 0, 0, 1, 14 };
-	private final static byte[] string_end = { 0, 0, 1, 15 };
-	private final static byte[] exception_start = { 0, 0, 1, 10 };
-	private final static byte[] exception_end = { 0, 0, 1, 11 };
-	private final static byte[] byte_start = { 0, 0, 1, 12 };
-	private final static byte[] byte_end = { 0, 0, 1, 13 };
+	 final static byte[] command_start = { 0, 0, 1, 2 };
+	 final static byte[] command_end = { 0, 0, 1, 3 };
+	 final static byte[] command_4 = { 0, 0, 1, 4 };
+	 final static byte[] command_5 = { 0, 0, 1, 5 };
+	 final static byte[] command_6 = { 0, 0, 1, 6 };
+	 final static byte[] command_7 = { 0, 0, 1, 7 };
+	 final static byte[] query_response_start = { 0, 0, 1, 8 };
+	 final static byte[] query_response_end = { 0, 0, 1, 9 };
+	 final static byte[] exception_start = { 0, 0, 1, 10 };
+	 final static byte[] exception_end = { 0, 0, 1, 11 };
+	 final static byte[] byte_start = { 0, 0, 1, 12 };
+	 final static byte[] byte_end = { 0, 0, 1, 13 };
+	 final static byte[] string_start = { 0, 0, 1, 14 };
+	 final static byte[] string_end = { 0, 0, 1, 15 };
 
 	//private static final int MAXIMUM_RESULT_SIZE = 50 * 1024 * 1024; // maximum result size in bytes to allow from decompiler
 
@@ -677,6 +681,7 @@ public class DecompileProcess {
 			writeString(resultEncoder);
 		}
 		write(query_response_end);
+		logBuffers("getRegister");
 	}
 
 	private void getRegisterName() throws IOException, DecoderException {
@@ -689,6 +694,7 @@ public class DecompileProcess {
 		write(query_response_start);
 		writeString(res);
 		write(query_response_end);
+		logBuffers("");
 	}
 
 	private void getTrackedRegisters() throws IOException, DecoderException {
@@ -698,6 +704,7 @@ public class DecompileProcess {
 		write(query_response_start);
 		writeString(resultEncoder);
 		write(query_response_end);
+		logBuffers("");
 	}
 
 	private void getUserOpName() throws IOException, DecoderException {
@@ -709,6 +716,7 @@ public class DecompileProcess {
 		write(query_response_start);
 		writeString(res);
 		write(query_response_end);
+		logBuffers("");
 	}
 
 	private void getPcode() throws IOException, DecoderException {
@@ -720,6 +728,7 @@ public class DecompileProcess {
 			writeString(resultEncoder);
 		}
 		write(query_response_end);
+		logBuffers("");
 	}
 
 	private void getPcodeInject(int type) throws IOException, DecoderException {
@@ -731,6 +740,7 @@ public class DecompileProcess {
 			writeString(resultEncoder);
 		}
 		write(query_response_end);
+		logBuffers("");
 	}
 
 	private void getCPoolRef() throws IOException, DecoderException {
@@ -748,6 +758,7 @@ public class DecompileProcess {
 			writeString(resultEncoder);
 		}
 		write(query_response_end);
+		logBuffers("");
 	}
 
 	private void getMappedSymbols() throws IOException, DecoderException {
@@ -760,6 +771,7 @@ public class DecompileProcess {
 			writeString(resultEncoder);
 		}
 		write(query_response_end);
+		logBuffers("");
 	}
 
 	private void getNamespacePath() throws IOException, DecoderException {
@@ -771,6 +783,7 @@ public class DecompileProcess {
 			writeString(resultEncoder);
 		}
 		write(query_response_end);
+		logBuffers("");
 	}
 
 	private void isNameUsed() throws IOException, DecoderException {
@@ -783,6 +796,7 @@ public class DecompileProcess {
 		write(res ? 't' : 'f');
 		write(string_end);
 		write(query_response_end);
+		logBuffers("");
 	}
 
 	private void getExternalRef() throws IOException, DecoderException {
@@ -794,6 +808,7 @@ public class DecompileProcess {
 			writeString(resultEncoder);
 		}
 		write(query_response_end);
+		logBuffers("");
 	}
 
 	private void getCodeLabel() throws IOException, DecoderException {
@@ -805,6 +820,7 @@ public class DecompileProcess {
 		write(query_response_start);
 		writeString(res);
 		write(query_response_end);
+		logBuffers("");
 	}
 
 	private void getComments() throws IOException, DecoderException {
@@ -816,6 +832,7 @@ public class DecompileProcess {
 		write(query_response_start);
 		writeString(resultEncoder);
 		write(query_response_end);
+		logBuffers("");
 	}
 
 	private void getDataType() throws IOException, DecoderException {
@@ -828,6 +845,7 @@ public class DecompileProcess {
 			writeString(resultEncoder);
 		}
 		write(query_response_end);
+		logBuffers("getDataType");
 	}
 
 	private void getBytes() throws IOException, DecoderException {
@@ -848,6 +866,7 @@ public class DecompileProcess {
 			write(byte_end);
 		}
 		write(query_response_end);
+		logBuffers("getBytes");
 	}
 
 	private void getStringData() throws IOException, DecoderException {
@@ -879,6 +898,7 @@ public class DecompileProcess {
 			write(byte_end);
 		}
 		write(query_response_end);
+		logBuffers("getStringData");
 	}
 
 	private void write(byte[] bytes) throws IOException {

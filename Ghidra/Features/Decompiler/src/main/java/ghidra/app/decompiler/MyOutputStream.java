@@ -2,11 +2,12 @@ package ghidra.app.decompiler;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 public class MyOutputStream extends OutputStream {
 
 	
-	String buffer = "";
+	ArrayList<Integer> buffer = new ArrayList<>();
 	private OutputStream stream;
 	public MyOutputStream(OutputStream outputStream) {
 		stream = outputStream;
@@ -16,11 +17,7 @@ public class MyOutputStream extends OutputStream {
 	@Override
 	public void write(int b) throws IOException {
 		stream.write(b);
-		int x = b;
-		if (x >= 32 && x <= 127) 
-			buffer += (char)(x) + ", ";
-		else
-			buffer += MyInputStream.hex(x) + ", ";
+		buffer.add(b);
 	}
 
 	@Override
@@ -28,6 +25,6 @@ public class MyOutputStream extends OutputStream {
 	@Override
 	public void close() throws IOException { stream.close(); }
 	
-	public String getBuffer() { return buffer; }
-	public void clearBuffer() { buffer = ""; }
+	public String getBuffer() { return MyInputStream.convertBuffer(buffer); }
+	public void clearBuffer() { buffer.clear(); }
 }
