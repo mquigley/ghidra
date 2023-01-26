@@ -32,8 +32,8 @@ import ghidra.xml.XmlPullParser;
  */
 public class CombinePattern extends DisjointPattern {
 
-	private ContextPattern context;		// Context piece
-	private InstructionPattern instr;	// Instruction piece
+	public ContextPattern context;		// Context piece
+	public InstructionPattern instr;	// Instruction piece
 
 	/* (non-Javadoc)
 	 * @see ghidra.app.plugin.processors.sleigh.DisjointPattern#getBlock(boolean)

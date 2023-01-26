@@ -29,6 +29,8 @@ import ghidra.xml.XmlPullParser;
  */
 public abstract class DisjointPattern extends Pattern {
 
+	public int id;
+
 	public abstract PatternBlock getBlock(boolean context);
 
 	public PatternBlock getInstructionBlock() {

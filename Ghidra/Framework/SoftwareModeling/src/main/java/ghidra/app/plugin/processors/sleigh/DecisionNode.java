@@ -25,9 +25,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import ghidra.app.plugin.processors.sleigh.pattern.CombinePattern;
 import ghidra.app.plugin.processors.sleigh.pattern.DisjointPattern;
 import ghidra.app.plugin.processors.sleigh.pattern.PatternBlock;
 import ghidra.app.plugin.processors.sleigh.symbol.SubtableSymbol;
+import ghidra.app.plugin.processors.sleigh.symbol.SymbolTable;
 import ghidra.program.model.lang.UnknownInstructionException;
 import ghidra.program.model.mem.MemBuffer;
 import ghidra.program.model.mem.MemoryAccessException;
@@ -242,7 +244,9 @@ public class DecisionNode {
 				XmlElement start = parser.start();
 				int id = SpecXmlUtils.decodeInt(subel.getAttribute("id"));
 				conlist.add(sub.getConstructor(id));
-				patlist.add(DisjointPattern.restoreDisjoint(parser));
+				var z = DisjointPattern.restoreDisjoint(parser);
+				z.id = id;
+				patlist.add(z);
 				parser.end(start);
 			}
 			else if (subel.getName().equals("decision")) {
@@ -259,6 +263,28 @@ public class DecisionNode {
 		children = new DecisionNode[childlist.size()];
 		childlist.toArray(children);
 		parser.end(el);
+		
+		for (int i = 0; i < conlist.size(); i++) {		
+			var c = conlist.get(i);
+			if (c instanceof Constructor) {
+				var cc = (Constructor)c;
+				
+				var p = (DisjointPattern) patlist.get(i);
+				var ln = cc.getLineno();
+				
+				try {
+					System.out.println("\nLine " + ln + " " + SymbolTable.slafile.get(ln-1));
+				} catch (Exception e) { e.printStackTrace(); }
+				System.out.println("" + i + ": Constructor " + cc + " printpiece=" + (""+cc.getPrintPieces()).replace('\n', ' '));
+				System.out.println("Pattern id=" + p.id + " str=" + p);
+				if (p instanceof CombinePattern && false) {
+					var pp = (CombinePattern)p;
+					System.out.println("Combine context=" + pp.context + " instr=" + pp.instr);
+				}
+			} else {
+				System.out.println("Class " + c.getClass());
+			}
+		}
 
 		unmodifiablePatternList = Collections.unmodifiableList(Arrays.asList(patternlist));
 		unmodifiableConstructorList = Collections.unmodifiableList(Arrays.asList(constructlist));
