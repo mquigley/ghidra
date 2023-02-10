@@ -68,7 +68,7 @@ public class Constructor implements Comparable<Constructor> {
 
 	@Override
 	public String toString() {
-		return "line" + lineno + "(id" + parent.getId() + "." + id + ")";
+		return "line " + sourceFile + ":" + lineno + "(id" + parent.getId() + "." + id + ")";
 	}
 
 	public List<String> getPrintPieces() {

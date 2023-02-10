@@ -19,10 +19,14 @@
  */
 package ghidra.app.plugin.processors.sleigh;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import ghidra.app.plugin.processors.sleigh.pattern.CombinePattern;
@@ -273,10 +277,11 @@ public class DecisionNode {
 				var ln = cc.getLineno();
 				
 				try {
-					System.out.println("\nLine " + ln + " " + SymbolTable.slafile.get(ln-1));
+					String src = readSourceLine(cc.getSourceFile(), ln-1);
+					System.out.println("\nLine " + cc.getSourceFile() + ":" + ln + " " + src);
 				} catch (Exception e) { e.printStackTrace(); }
 				System.out.println("" + i + ": Constructor " + cc + " printpiece=" + (""+cc.getPrintPieces()).replace('\n', ' '));
-				System.out.println("Pattern id=" + p.id + " str=" + p);
+				System.out.println("Pattern id=" + p.id + " pattern=" + p);
 				if (p instanceof CombinePattern && false) {
 					var pp = (CombinePattern)p;
 					System.out.println("Combine context=" + pp.context + " instr=" + pp.instr);
@@ -290,4 +295,30 @@ public class DecisionNode {
 		unmodifiableConstructorList = Collections.unmodifiableList(Arrays.asList(constructlist));
 		unmodifiableChildren = Collections.unmodifiableList(Arrays.asList(children));
 	}
+
+	public static HashMap<String, ArrayList<String>> slafile = new HashMap<>();
+
+private String readSourceLine(String sourceFile, int i) {
+	var list = slafile.get(sourceFile);
+	if (list == null) {
+		File file = new File("/Users/matt.quigley/dev/projects/ghidra/Ghidra/Processors/x86/data/languages/" + sourceFile);
+		list = new ArrayList<>();
+		slafile.put(sourceFile, list);
+		try(BufferedReader br = new BufferedReader(new FileReader(file))) {
+		    for(String line; (line = br.readLine()) != null; ) {
+		        list.add(line);
+		    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	var t = list.get(i);
+	i++;
+	while (i < list.size() && !t.trim().endsWith("}")) {
+		t += "\n" + list.get(i);
+		i++;
+	}
+	return t;
+}
 }

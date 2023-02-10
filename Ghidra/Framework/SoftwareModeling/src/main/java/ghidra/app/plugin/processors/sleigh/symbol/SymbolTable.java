@@ -25,6 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import ghidra.app.plugin.processors.sleigh.SleighException;
 import ghidra.app.plugin.processors.sleigh.SleighLanguage;
@@ -44,7 +45,6 @@ public class SymbolTable {
 	private SymbolScope[] table;		// All SymbolScopes, indexed by id
 	private SymbolScope curscope;		// Current scope
 	
-	public static ArrayList<String> slafile = null;
 	
 	private SymbolScope skipScope(int i) {
 		SymbolScope res = curscope;
@@ -94,21 +94,7 @@ public class SymbolTable {
 	}
 	
 	public void restoreXml(XmlPullParser parser, SleighLanguage sleigh) throws UnknownInstructionException {
-		
-		if (slafile == null) {
-			File file = new File("/Users/matt.quigley/dev/projects/ghidra/Ghidra/Processors/x86/data/languages/ia.sinc");
-			slafile = new ArrayList<>();
-			try(BufferedReader br = new BufferedReader(new FileReader(file))) {
-			    for(String line; (line = br.readLine()) != null; ) {
-			        slafile.add(line);
-			    }
-			    // line is not visible here.
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-		
+				
 	    XmlElement el = parser.start("symbol_table");
 		int scopesize = SpecXmlUtils.decodeInt(el.getAttribute("scopesize"));
 		table = new SymbolScope[scopesize];
