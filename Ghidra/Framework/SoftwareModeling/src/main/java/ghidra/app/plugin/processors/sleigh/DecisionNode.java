@@ -34,6 +34,7 @@ import ghidra.app.plugin.processors.sleigh.pattern.DisjointPattern;
 import ghidra.app.plugin.processors.sleigh.pattern.PatternBlock;
 import ghidra.app.plugin.processors.sleigh.symbol.SubtableSymbol;
 import ghidra.app.plugin.processors.sleigh.symbol.SymbolTable;
+import ghidra.app.plugin.processors.sleigh.template.ConstructTpl;
 import ghidra.program.model.lang.UnknownInstructionException;
 import ghidra.program.model.mem.MemBuffer;
 import ghidra.program.model.mem.MemoryAccessException;
@@ -279,13 +280,34 @@ public class DecisionNode {
 				try {
 					String src = readSourceLine(cc.getSourceFile(), ln-1);
 					System.out.println("\nLine " + cc.getSourceFile() + ":" + ln + " " + src);
-				} catch (Exception e) { e.printStackTrace(); }
+				} 
+				catch (Exception e) { e.printStackTrace(); }
+				
 				System.out.println("" + i + ": Constructor " + cc + " printpiece=" + (""+cc.getPrintPieces()).replace('\n', ' '));
+				System.out.print("Operands ");
+				for (int k = 0; k < cc.getNumOperands(); k++) {
+					System.out.print(k + ": " + cc.getOperand(k) + "  ");
+				}
+				System.out.println();
 				System.out.println("Pattern id=" + p.id + " pattern=" + p);
 				if (p instanceof CombinePattern && false) {
 					var pp = (CombinePattern)p;
 					System.out.println("Combine context=" + pp.context + " instr=" + pp.instr);
 				}
+				// PCodes
+				ConstructTpl t = cc.getTempl();
+				System.out.println("Template");
+				printConstructTpl(t);
+				int x = 0;
+				do {
+					t = cc.getNamedTempl(x);
+					if (t == null)
+						break;
+					System.out.println("Named template " + x);
+					printConstructTpl(t);
+					x++;
+				} while (true);
+				
 			} else {
 				System.out.println("Class " + c.getClass());
 			}
@@ -294,6 +316,16 @@ public class DecisionNode {
 		unmodifiablePatternList = Collections.unmodifiableList(Arrays.asList(patternlist));
 		unmodifiableConstructorList = Collections.unmodifiableList(Arrays.asList(constructlist));
 		unmodifiableChildren = Collections.unmodifiableList(Arrays.asList(children));
+	}
+	
+	void printConstructTpl(ConstructTpl t)
+	{
+		var v = t.getOpVec();
+		for (int i = 0; i < v.length; i++)
+		{
+			var o = v[i];
+			System.out.println("\t" + i + ": " + o);
+		}
 	}
 
 	public static HashMap<String, ArrayList<String>> slafile = new HashMap<>();
