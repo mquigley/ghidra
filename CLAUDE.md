@@ -37,3 +37,11 @@ Claude will read the relevant NOTES.md and have immediate context without re-exp
 - **Build**: Gradle (Java), Gradle native (C++ cross-platform), Bison/Flex (parsers)
 - **Structure**: Modular — `Ghidra/Features/`, `Ghidra/Framework/`, `Ghidra/Processors/`, etc.
 - **Key concept**: Sleigh is Ghidra's domain-specific language for describing processor instruction sets; it drives both disassembly and PCode lifting.
+
+## Concepts
+
+[MEMORY_ADDRESSES.md](MEMORY_ADDRESSES.md) - Describes Memory, AddressSpaces, and Addresses.
+
+[ANALYZER.md](ANALYZER.md) - Describes the auto-analysis framework: Analyzer interface, AnalyzerType triggers, AnalysisPriority ordering, AutoAnalysisManager scheduling, and built-in analyzers.
+
+[DISASSEMBLER.md](DISASSEMBLER.md) - Describes the disassembly and code flow analysis pipeline: EntryPointAnalyzer, Disassembler engine, DisassemblerQueue (three-queue priority model), FlowType semantics, context register propagation, and function creation.
