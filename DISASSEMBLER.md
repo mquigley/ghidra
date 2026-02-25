@@ -1,5 +1,12 @@
 # Disassembly and Code Flow Analysis
 
+## Matt's notes
+
+[CodeUnit.java](Ghidra/Framework/SoftwareModeling/src/main/java/ghidra/program/model/listing/CodeUnit.java) - is the interface common to both Instructions and Data. It has labels, symbols, symbols, comments, mnemonic, start/end address, register references, operand addresses.
+[Instruction] - Code
+[Data] - Data
+
+
 ## The Entry Point: `EntryPointAnalyzer`
 
 [EntryPointAnalyzer.java](Ghidra/Features/Base/src/main/java/ghidra/app/plugin/core/disassembler/EntryPointAnalyzer.java)

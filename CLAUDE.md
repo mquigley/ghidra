@@ -45,3 +45,5 @@ Claude will read the relevant NOTES.md and have immediate context without re-exp
 [ANALYZER.md](ANALYZER.md) - Describes the auto-analysis framework: Analyzer interface, AnalyzerType triggers, AnalysisPriority ordering, AutoAnalysisManager scheduling, and built-in analyzers.
 
 [DISASSEMBLER.md](DISASSEMBLER.md) - Describes the disassembly and code flow analysis pipeline: EntryPointAnalyzer, Disassembler engine, DisassemblerQueue (three-queue priority model), FlowType semantics, context register propagation, and function creation.
+
+[CODEMANAGER.md](CODEMANAGER.md) - Describes how CodeManager classifies addresses as code, data, or undefined: two B-Tree DB tables (instAdapter, dataAdapter), LRU object cache, synthesized undefined Data, and the orthogonal distinction between uninitialized memory blocks and undefined data types.
