@@ -38,6 +38,28 @@ Claude will read the relevant NOTES.md and have immediate context without re-exp
 - **Structure**: Modular — `Ghidra/Features/`, `Ghidra/Framework/`, `Ghidra/Processors/`, etc.
 - **Key concept**: Sleigh is Ghidra's domain-specific language for describing processor instruction sets; it drives both disassembly and PCode lifting.
 
+## ProgramDB — The Root
+
+`ProgramDB` is the root owner object. [Ghidra/Framework/SoftwareModeling/NOTES.md](Ghidra/Framework/SoftwareModeling/NOTES.md) Manages **15 subsystem managers** in a fixed order:
+
+| Index | Manager | Role |
+|-------|---------|------|
+| 0 | `MemoryMapDB` | Memory blocks, file bytes |
+| 1 | `CodeManager` | Instructions and data code units |
+| 2 | `SymbolManager` | All symbol types |
+| 3 | `NamespaceManager` | Namespace hierarchy |
+| 4 | `FunctionManagerDB` | Functions, parameters, locals |
+| 5 | `ExternalManagerDB` | External library locations |
+| 6 | `ReferenceDBManager` | Code/data references |
+| 7 | `ProgramDataTypeManager` | Data types (extends `DataTypeManagerDB`) |
+| 8 | `EquateManager` | Equates (constant substitutions) |
+| 9 | `BookmarkDBManager` | Bookmarks |
+| 10 | `ProgramRegisterContextDB` | Processor register context values (e.g. for Thumb processors) |
+| 11 | `DBPropertyMapManager` | Generic property maps |
+| 12 | `TreeManager` | Program organization trees |
+| 13 | `RelocationManager` | Relocation records |
+| 14 | `SourceFileManagerDB` | Source file/line mappings |
+
 ## Concepts
 
 [MEMORY_ADDRESSES.md](MEMORY_ADDRESSES.md) - Describes Memory, AddressSpaces, and Addresses.
@@ -47,3 +69,5 @@ Claude will read the relevant NOTES.md and have immediate context without re-exp
 [DISASSEMBLER.md](DISASSEMBLER.md) - Describes the disassembly and code flow analysis pipeline: EntryPointAnalyzer, Disassembler engine, DisassemblerQueue (three-queue priority model), FlowType semantics, context register propagation, and function creation.
 
 [CODEMANAGER.md](CODEMANAGER.md) - Describes how CodeManager classifies addresses as code, data, or undefined: two B-Tree DB tables (instAdapter, dataAdapter), LRU object cache, synthesized undefined Data, and the orthogonal distinction between uninitialized memory blocks and undefined data types.
+
+[REGISTERCONTEXT.md](REGISTERCONTEXT.md) - Describes how ProgramRegisterContextDB stores CPU and context register values at address ranges: two maps (persistent DB-backed vs ephemeral language defaults), AddressRangeMapDB storage, MzLoader segment register setup, and why SymbolicPropagator discoveries are not persisted.

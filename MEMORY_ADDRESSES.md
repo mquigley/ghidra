@@ -19,6 +19,8 @@ Base ID 2  →  ("BANK0", segment=0)  →  BANK0:0x0000_0000 .. BANK0:0xFFFF_FFF
 Base ID 3  →  ("BANK1", segment=0)  →  BANK1:0x0000_0000 .. BANK1:0xFFFF_FFFF
 ```
 
+A bit more about the AddressMapDB - it exists to map the combination of 64-bit addresses plus address space identifier to a 64-bit long used by the Database (`DBHandle`) using `long`s. It turns out you can't encode all possible 64-bit addresses to a database handle. If the btree used 80-bits, you probably wouldn't need the address map, although it does have another benefit by handling "image base rebasing".
+
 Addresses may not need an underlying MemoryBlock. For example, Register addresses (e.g. RBX is at `register:0x08`), stack addresses, or external addresses like `printf` which aren't in the program. There are also valid Addresses that exist in gaps between blocks, so getByte() might throw an exception but the `Address` is legal. A valid `Address` just means "a well-formed coordinate"; backing bytes are optional.
 
 

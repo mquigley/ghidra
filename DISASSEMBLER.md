@@ -3,6 +3,7 @@
 ## Matt's notes
 
 [CodeUnit.java](Ghidra/Framework/SoftwareModeling/src/main/java/ghidra/program/model/listing/CodeUnit.java) - is the interface common to both Instructions and Data. It has labels, symbols, symbols, comments, mnemonic, start/end address, register references, operand addresses.
+[InstructionDB.java](Ghidra/Framework/SoftwareModeling/src/main/java/ghidra/program/database/code/InstructionDB.java) is the concrete implementation.
 [Instruction] - Code
 [Data] - Data
 
@@ -191,6 +192,110 @@ Only `address → (ProtoID, flags)` lives in the database.
 | What's stored in the DB? | Only (ProtoID, flags) per address — everything else is recomputed |
 | Where does `getFlowType()` come from? | SLEIGH flow directives, parsed once at prototype construction |
 | Where does `getPcode()` come from? | Walking SLEIGH templates at call time, never cached |
+
+## Register Modeling
+
+### `Register` — A Named Window into Register Address Space
+
+A `Register` is **not a simple enum**. It is a named, positional window into the `register`
+address space — a flat synthetic byte array separate from RAM. Every register (including
+overlapping sub-registers) is just a position + size in that space.
+
+```
+Register
+├─ address: Address        ← position in register space (e.g., register:0x00)
+├─ numBytes: int           ← bytes this register spans
+├─ leastSigBit: int        ← bit offset from address (for partial-byte registers)
+├─ bitLength: int          ← total bits
+├─ bigEndian: boolean
+├─ parent: Register        ← immediate parent (e.g., AX → EAX)
+├─ childRegisters: List    ← sub-registers (e.g., EAX → [AX, ...])
+├─ baseRegister: Register  ← root of hierarchy (e.g., AL → RAX)
+├─ leastSigBitInBaseRegister: int
+├─ baseMask: byte[]        ← which bits of the base register apply here (lazy)
+└─ typeFlags: int          ← SP, PC, FP, CONTEXT, ZERO, VECTOR, HIDDEN, etc.
+```
+
+Source: [Register.java](Ghidra/Framework/SoftwareModeling/src/main/java/ghidra/program/model/lang/Register.java)
+
+### Sub-register Hierarchy: EAX / AX / AL / AH
+
+Overlapping x86 registers are modeled as a **tree of positional windows** into the same
+bytes of register space:
+
+```
+RAX  (64-bit, register:0x00, leastSigBitInBase=0)
+ └─ EAX  (32-bit, leastSigBitInBase=0)
+      └─ AX  (16-bit, leastSigBitInBase=0)
+           ├─ AL  (8-bit, leastSigBitInBase=0)
+           └─ AH  (8-bit, leastSigBitInBase=8)
+```
+
+Each node holds a `baseMask` byte array marking which bits of RAX it covers. AL's mask has
+bits 0–7 set; AH has bits 8–15. This enables `contains(reg)` and bit-level value merging.
+The same hierarchy mechanism handles SIMD registers (XMM inside YMM inside ZMM).
+
+`Register.contains(Register reg)`. It returns `true` if the given register's bits are a subset of this register's bits.
+
+```java
+ax.contains(al)   // true  — AL is fully inside AX
+ax.contains(ah)   // true  — AH is fully inside AX
+al.contains(ah)   // false — AL and AH are disjoint (don't overlap, just both inside AX)
+```
+
+For the disjoint/overlap case (AL vs AH — they don't contain each other but share a parent), there's no single overlaps() method. The pattern used in the codebase is to compare via the base register and bit ranges:
+
+```java
+// Do two registers overlap?
+boolean overlaps = reg1.getBaseRegister().equals(reg2.getBaseRegister())
+    && reg1.getLeastSignificantBitInBaseRegister() < reg2.getLeastSignificantBitInBaseRegister() + reg2.getBitLength()
+    && reg2.getLeastSignificantBitInBaseRegister() < reg1.getLeastSignificantBitInBaseRegister() + reg1.getBitLength();
+```
+
+### `RegisterValue` — Value + Validity Mask
+
+Since analysis often knows only part of a register (e.g., AX but not the upper bits of RAX),
+`RegisterValue` pairs a value with a mask indicating which bits are known:
+
+bytes[] layout (e.g., 4-byte register):
+```
+  [mask MSB, mask, mask, mask LSB, value MSB, value, value, value LSB]
+```
+
+- `getUnsignedValue()` returns `null` if any mask bits are OFF (value is incomplete)
+- `combineValues(other)` merges two `RegisterValue`s; the argument's known bits win
+- `assign(subRegister, value)` writes a sub-register's bits into a larger `RegisterValue`
+
+Source: [RegisterValue.java](Ghidra/Framework/SoftwareModeling/src/main/java/ghidra/program/model/lang/RegisterValue.java)
+
+### `RegisterManager` — The Lookup Engine
+
+The `Language` object owns a `RegisterManager` that indexes all registers three ways:
+
+| Lookup | Mechanism |
+|--------|-----------|
+| By name | `HashMap<String, Register>` (case-insensitive, includes aliases) |
+| By address | `Map<Address, List<Register>>` — all registers at that address |
+| By address + size | `Map<(Address, size), Register>` — exact match; size=0 gives largest |
+
+Source: [RegisterManager.java](Ghidra/Framework/SoftwareModeling/src/main/java/ghidra/program/model/lang/RegisterManager.java)
+
+### Why Not a Simple Enum?
+
+| Reason | Detail |
+|--------|--------|
+| Overlapping registers | RAX/EAX/AX/AL/AH share the same bytes; bit-range addressing is required |
+| Processor context registers | ARM `TMode`, MIPS `ISAModeSwitch` are registers that control the disassembler's decode mode, not computation |
+| SIMD/vector registers | XMM/YMM/ZMM are nested; same hierarchy handles them |
+| Cross-architecture uniformity | A 6502 accumulator, x86-64 RAX, and ARM Thumb bit all use the same API |
+| Partial-value tracking | Analysis tools express "I know the low 16 bits are 0x1234 but not the high bits" via `RegisterValue` masks |
+
+### How they are formed
+
+SlaFormat.java — the format definition and I/O entry point.
+
+The .sla file is not XML or a custom binary format — it's a zlib-compressed, packed binary encoding. SlaFormat.buildDecoder() is the entry point. PackedDecode is the actual "parser" — it reads a custom compact binary encoding (not XML, not protobuf) where elements and attributes are identified by integer IDs defined as constants in SlaFormat (all those ELEM_* and ATTRIB_* constants you see). Then SleighLanguage.decode(decoder) walks that decoded tree to populate its symbol table.
+
 
 ## The Full Pipeline
 

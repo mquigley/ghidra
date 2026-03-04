@@ -155,7 +155,7 @@ DB-backed implementations of the model interfaces. Every manager is a `ManagerDB
 | 7 | `ProgramDataTypeManager` | Data types (extends `DataTypeManagerDB`) |
 | 8 | `EquateManager` | Equates (constant substitutions) |
 | 9 | `BookmarkDBManager` | Bookmarks |
-| 10 | `ProgramRegisterContextDB` | Processor register context values |
+| 10 | `ProgramRegisterContextDB` | Processor register context values (e.g. for Thumb processors) |
 | 11 | `DBPropertyMapManager` | Generic property maps |
 | 12 | `TreeManager` | Program organization trees |
 | 13 | `RelocationManager` | Relocation records |
