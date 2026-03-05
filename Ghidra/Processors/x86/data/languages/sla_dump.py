@@ -504,7 +504,7 @@ def _describe_handle(hc, sym, display_names):
         if el.tag == 'const_real': return hex_str(el.get('val','0'))
         if el.tag == 'const_handle':
             op_idx = int(el.get('val','0'))
-            op = operand_names[op_idx] if op_idx < len(operand_names) else f'op{op_idx}'
+            op = display_names[op_idx] if op_idx < len(display_names) else f'op{op_idx}'
             return f'{op}.s{el.get("s","?")}'
         return el.tag
     if len(hc) >= 7:
