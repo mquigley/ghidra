@@ -165,25 +165,32 @@ task sleighCompile (type: JavaExec) {
 	dependsOn saveSleighArgs
 	group = rootProject.GHIDRA_GROUP
 	description = "  Compiles all the sleigh languages.    [gradle/processorProject.gradle]\n"
-	 
+
 	// define standard parameters for JavaExec
 	classpath configurations.sleighConfig
 	mainClass = 'ghidra.pcodeCPort.slgh_compile.SleighCompile'
-	
+
 	// Delay adding the directory argument until the first part of the execution phase, so
 	// that any extra args added by a project override will be added to the arg list before
 	// these arguments.
 	// NOTE: projects should no longer add arguments to this task and should instead
 	// add such args to the sleighCompileOptions list.
+	//
+	// Extra one-off flags (e.g. -y for XML debug output) may be passed on the command line:
+	//   ./gradlew sleighCompile -PsleighExtraArgs="-y"
+	//   ./gradlew :x86:sleighCompile -PsleighExtraArgs="-y -u"
 	doFirst {
+		if (project.hasProperty('sleighExtraArgs')) {
+			args sleighExtraArgs.split('\\s+')
+		}
 		args "-i"
 		args "./build/tmp/sleighArgs.txt"
 		args "-DBaseDir=${getProjectReposRootPath()}"
 		args '-a'
 		args './data/languages'
 	}
-	
-	jvmArgs '-Xmx2048M'	
+
+	jvmArgs '-Xmx2048M'
 }
 
 // The task that copies the common files to the distribution folder must depend on

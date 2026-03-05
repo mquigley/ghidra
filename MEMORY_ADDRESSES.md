@@ -155,7 +155,8 @@ independent overlay spaces, one per bank.
 ### Segmented Address Space (x86 Real Mode)
 
 For DOS programs, `x86:LE:16:Real Mode` defines a `SegmentedAddressSpace` — a 21-bit space
-(`REALMODE_SIZE = 21`, max flat offset `0x10FFEF`).
+(`REALMODE_SIZE = 21`, max flat offset `0x10FFEF`). 
+Matt's note - maximum unique address is 0xFFFFF and it's a 20-bit physical address bus. 0xFFFF:FFFF is 0xFFFF0+0xFFFF=0x10FFEF which is 21-bits, but it wraps around modulo 1MB to 0x0FFEF.
 
 Real-mode address arithmetic:
 ```
@@ -210,6 +211,38 @@ Two `Address` objects are equal when **both** their flat offset **and** their `A
 equal. For overlay spaces, `AddressSpace.equals()` uses the overlay's `orderedKey` (its name),
 so `BANK0:0x8000` and `BANK1:0x8000` are distinct addresses even though their offsets are
 identical.
+
+### How Address Objects Are Constructed During Disassembly
+The answer is: AddressSpace is the factory for Address objects, and the right AddressSpace is always already in hand — it was established at language load time and never changes.
+
+The SLEIGH language defines the attributes of the address space. Most languages are Generic Address Spaces, while special attributes `"segmented"` and `"protected"` to created `SegmentedAddressSpace` and `ProtectedAddressSpace`. When the SLEIGH lanuage is being decoded inside `SleighLanguage.parseSpaces()`, the "ram" address space is constructed and put inside a `LinkedHashMap<String, AddressSpace> spacetable`. This is exposed to the entire Ghidra application through `currentProgram.getAddressFactory()` with methods like `.getDefaultAddressSpace()` and `getStackSpace()`. Within this list, `"ram"` maps to a SegmentedAddressSpace for x86 real-mode, or a GenericAddressSpace for everything else. This decision is made once at language load. After that, any code that needs to make an address in "ram" just does:
+
+```java
+spacetable.get("ram").getAddress(offset)
+```
+
+Two separate questions
+1. The instruction's own address — this is trivial. The disassembler starts with an Address that the caller already provides (from a MemBuffer). blockMemBuffer.getAddress() returns the current address, and as the disassembler advances instruction-by-instruction it calls addr.add(inst.getLength()) — pure arithmetic on the existing Address, which preserves the space. No construction happens.
+
+2. Operand addresses (e.g., the target of a jump, or a register reference) — this is where AddressSpace acts as a factory.
+
+The factory pattern: `AddressSpace.getAddress(long)`
+`Address` objects are never constructed directly by callers. The `AddressSpace` is the factory:
+
+```java
+// GenericAddressSpace.getAddress()
+public Address getAddress(long offset) {
+    return new GenericAddress(this, offset);   // → GenericAddress
+}
+
+// SegmentedAddressSpace.getAddress()
+public SegmentedAddress getAddress(long byteOffset) {
+    return new SegmentedAddress(this, byteOffset);  // → SegmentedAddress
+}
+```
+
+The correct concrete class is produced automatically by whichever `AddressSpace` subclass you already hold. Callers never instanceof-check or pick a class — they just call `.getAddress(offset)` on the space they have.
+
 
 ---
 
@@ -470,3 +503,115 @@ All blocks live in the 21-bit `ram` (SegmentedAddressSpace). No overlays are cre
 `MzLoader` itself — if the DOS program uses bank-switched overlays, those would be added
 separately. The flat offset is the only value used for block lookup; the segment portion of any
 `SegmentedAddress` is strictly for display and segment-relative arithmetic.
+
+---
+
+## How ConstantPropagationAnalyzer Resolves Segmented References
+
+This traces the exact path for code like:
+
+```asm
+MOV DS, 0xA000
+MOV AX, DS:[0F00]    ← Ghidra should create a reference to A000:0F00 and a 2-byte Data there
+```
+
+### Phase 1: DS=0xA000 Enters the Analyzer
+
+`MzLoader` writes `DS=0xA000` into `ProgramRegisterContextDB` at load time (persistent DB).
+When `ConstantPropagationAnalyzer` runs, `SymbolicPropogator`'s constructor copies all
+persisted register values from `program.getProgramContext()` into an ephemeral `regVals`
+HashMap. If `MOV DS, 0xA000` also appears in code, the `PcodeOp.COPY` handler writes it in
+the same way. From that point the symbolic executor treats DS as the constant 0xA000.
+
+### Phase 2: Resolving the LOAD Operand
+
+`SymbolicPropogator.applyPcode()` processes the `MOV AX, DS:[0F00]` instruction. SLEIGH
+emits this as a `PcodeOp.LOAD` with a `SEGMENTOP`. The LOAD handler:
+
+```java
+val1 = vContext.getValue(DS_varnode)      // → Varnode(constant_space, 0xA000)
+val2 = vContext.getValue(offset_varnode)  // → Varnode(constant_space, 0x0F00)
+vt   = vContext.getVarnode(val1, val2, size=2, evaluator)  // → resolves flat address
+```
+
+Inside `VarnodeContext.getVarnode(Varnode space, Varnode offset, int size, ContextEvaluator)`:
+
+```java
+// Both DS (0xA000) and offset (0x0F00) are known constants:
+spaceID = (int) space.getOffset()   // = 0xA000  ← segment register value used as spaceID
+valbase = offset.getOffset()        // = 0x0F00
+return getVarnode(spaceID, valbase, size)
+```
+
+Inside `VarnodeContext.getVarnode(int spaceID, long offset, int size)`:
+
+```java
+AddressSpace space = addrFactory.getAddressSpace(0xA000)  // → SegmentedAddressSpace "ram"
+Address target = space.getTruncatedAddress(0x0F00, true)  // → SegmentedAddress(flat=0xA0F00)
+return new Varnode(target, 2)
+```
+
+`SegmentedAddressSpace.getTruncatedAddress(0x0F00)` computes flat = `0xA000 * 16 + 0x0F00 =
+0xA0F00` and returns a `SegmentedAddress` displayed as `A000:0F00`.
+
+**Key non-obvious design**: the segment register's value (`0xA000`) is threaded through PCode
+data flow as a **spaceID** integer. `addrFactory.getAddressSpace(0xA000)` returns the `ram`
+`SegmentedAddressSpace`, whose `getAddress()` then applies the segment formula.
+
+### Phase 3: Reference and Data Creation
+
+After resolving the Varnode, `addLoadStoreReference()` calls `makeReference()`, which:
+
+1. Extracts `spaceID=0xA000, wordOffset=0x0F00` from the Varnode
+2. Reconstructs `Address target = space.getAddress(0x0F00)` → `SegmentedAddress A000:0F00`
+3. Calls `evaluator.evaluateReference()` — `ConstantPropagationContextEvaluator` returns `true`
+4. Calls `instruction.addOperandReference(opIndex, A000:0F00, READ, ANALYSIS)`
+
+Inside `ConstantPropagationContextEvaluator.evaluateReference()`:
+
+```java
+if (refType.isData()) {
+    createPointedToData(aMgr, program, address, refType, dataType, size)
+}
+```
+
+Which calls `createData()`:
+
+```java
+DataUtilities.createData(program, A000:0F00, Undefined2, -1,
+    ClearDataMode.CLEAR_ALL_UNDEFINED_CONFLICT_DATA)
+// → 2-byte Data item created at SegmentedAddress A000:0F00
+```
+
+### Full Call Chain
+
+```
+ConstantPropagationAnalyzer.analyzeLocation()
+  → SymbolicPropogator.flowConstants()
+      [copies DS=0xA000 from ProgramRegisterContextDB into ephemeral regVals]
+      → applyPcode() per instruction
+          case LOAD:
+            vContext.getValue(DS_varnode)        → Varnode(const, 0xA000)
+            vContext.getValue(offset_varnode)    → Varnode(const, 0x0F00)
+            vContext.getVarnode(0xA000, 0x0F00, 2)
+              → addrFactory.getAddressSpace(0xA000) → SegmentedAddressSpace
+              → space.getTruncatedAddress(0x0F00)   → SegmentedAddress A000:0F00
+              → new Varnode(A000:0F00, size=2)
+            addLoadStoreReference(...)
+              → makeReference(vt=Varnode(A000:0F00,2), READ)
+                  → instruction.addOperandReference(A000:0F00, READ, ANALYSIS)
+                  → evaluator.evaluateReference()
+                       → createData(program, A000:0F00, Undefined2)
+                            → DataUtilities.createData(...)
+                                 → 2-byte Data at A000:0F00  ✓
+```
+
+### Key Classes
+
+| Class | File | Role |
+|-------|------|------|
+| `ConstantPropagationAnalyzer` | `ghidra/app/plugin/core/analysis/` | Entry point; creates SymbolicPropogator |
+| `SymbolicPropogator` | `ghidra/program/util/` | PCode symbolic executor; loads register state |
+| `VarnodeContext` | `ghidra/program/util/` | Tracks symbolic Varnode values; resolves addresses |
+| `ConstantPropagationContextEvaluator` | `ghidra/app/plugin/core/analysis/` | Callback; creates references and Data items |
+| `DataUtilities` | `ghidra/app/util/` | `createData()` — places typed Data at an address |
