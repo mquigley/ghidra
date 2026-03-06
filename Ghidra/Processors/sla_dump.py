@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-sla_dump.py — Human-readable dump of x86 PCode from x86.sla.xml
+sla_dump.py — Human-readable dump of SLEIGH PCode from a compiled .sla.xml file.
 
 Renders each top-level instruction constructor as:
 
@@ -10,48 +10,29 @@ Renders each top-level instruction constructor as:
     ...
 
 Usage:
-    python3 sla_dump.py [x86.sla.xml] [options]
+    python3 sla_dump.py <target> [options]
+
+Arguments:
+    <target>   A .sla.xml file, a processor directory, or a directory to search
+               recursively for .sla.xml files.
+
+               Examples:
+                 python3 sla_dump.py x86/data/languages/x86.sla.xml
+                 python3 sla_dump.py x86/
+                 python3 sla_dump.py .          # all processors under current dir
 
 Options:
     --filter SUBSTR   Only print constructors whose mnemonic contains SUBSTR
     --source N        Only print constructors from source file index N
     --no-build        Hide BUILD ops (sub-operand expansions)
-
-
-
-
-BUILD annotations
-A BUILD in the pcode template means "execute this operand's own pcode here before continuing". It's the mechanism for sub-table operands — operands that aren't simple registers but are themselves defined by a SLEIGH sub-table with their own pcode.
-
-In SHR rm16,n1, the two operands are defined as sub-tables in SLEIGH source:
-
-
-# ia.sinc:1484
-rm16: Rmr16     is mod=3 & Rmr16    { export Rmr16; }      ← register variant
-rm16: "word ptr" Mem  is Mem        { export *:2 Mem; }    ← memory variant
-
-# ia.sinc:1495
-n1: one   is epsilon  [ one=1; ]    { export *[const]:1 one; }
-So rm16 is a sub-table that resolves to either a register or a memory dereference — it has pcode of its own (a LOAD, in the memory case). The BUILD rm16 and BUILD n1 lines in the dump mean: "at this point in execution, evaluate whichever rm16 variant matched, and splice in its pcode."
-
-What BUILD lines mean in practice for SHR rm16,n1:
-
-
-SHR rm16,n1
-  # BUILD 1         ← evaluate n1's pcode (constant 1, no-op in register case)
-  # BUILD 0         ← evaluate rm16's pcode (no-op for register, or LOAD for memory)
-  TMP1 = INT_AND rm16, 1      ← after BUILD, rm16 is available as a value
-  CF = INT_NOTEQUAL TMP1, 0
-  ...
-If the instruction encodes a memory operand (e.g. SHR [SI], 1), the BUILD for rm16 would have actually emitted a LOAD op to bring the memory value into a temp before this code runs. The parametric dump can't show that because which variant matched is only known at decode time — that's the fundamental limit of Approach A.
-
-
+    --no-source       Hide source file/line annotations
+    --subtables       Also dump non-instruction subtable constructors
 """
 
 import sys
-import re
+import os
+import glob
 import xml.etree.ElementTree as ET
-from collections import defaultdict
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -83,7 +64,7 @@ class SymbolTable:
         self.userops = {}
         # userop index -> name
         self.userop_names = {}
-        # id -> (subsym_id, build_index)  operand_sym bodies
+        # id -> subsym_id  operand_sym bodies
         self.operand_subsym = {}
         self.operand_index = {}   # id -> build_index (the index= attr on operand_sym)
         # id -> name  for subtable_syms
@@ -419,18 +400,6 @@ def get_operand_names(ctor_el, sym: SymbolTable):
             build_names[build_idx] = name
     return display_names, build_names
 
-def get_print_string(ctor_el):
-    """
-    Reconstruct the mnemonic+operand display string from <print> and <opprint> elements.
-    """
-    parts = []
-    for child in ctor_el:
-        if child.tag == 'print':
-            parts.append(child.get('piece', ''))
-        elif child.tag == 'opprint':
-            parts.append(f'<op{child.get("id", "?")}>') # placeholder resolved below
-    return ''.join(parts)
-
 def render_constructor(ctor_el, sym: SymbolTable, source_names: dict,
                        show_build=True, show_source=True):
     """Render one constructor to a list of lines."""
@@ -515,29 +484,33 @@ def _describe_handle(hc, sym, display_names):
     return '(incomplete)'
 
 # ---------------------------------------------------------------------------
-# Main
+# File discovery
 # ---------------------------------------------------------------------------
 
-def main():
-    import argparse
-    parser = argparse.ArgumentParser(description='Dump x86.sla.xml PCode in human-readable form')
-    parser.add_argument('sla_xml', nargs='?',
-                        default='x86.sla.xml',
-                        help='Path to x86.sla.xml (default: x86.sla.xml)')
-    parser.add_argument('--filter', '-f', metavar='SUBSTR',
-                        help='Only show constructors whose mnemonic contains SUBSTR (case-insensitive)')
-    parser.add_argument('--source', '-s', metavar='N', type=int, default=None,
-                        help='Only show constructors from source file index N')
-    parser.add_argument('--no-build', action='store_true',
-                        help='Hide BUILD ops')
-    parser.add_argument('--no-source', action='store_true',
-                        help='Hide source file/line annotations')
-    parser.add_argument('--subtables', action='store_true',
-                        help='Also dump non-instruction subtable constructors')
-    args = parser.parse_args()
+def find_sla_xml_files(target: str) -> list[str]:
+    """
+    Given a path that is either:
+      - a .sla.xml file  -> return [that file]
+      - a directory      -> return all .sla.xml files found recursively within it
+    """
+    if os.path.isfile(target):
+        return [target]
+    if os.path.isdir(target):
+        found = sorted(glob.glob(os.path.join(target, '**', '*.sla.xml'), recursive=True))
+        if not found:
+            print(f'No .sla.xml files found under {target}', file=sys.stderr)
+        return found
+    print(f'Error: {target!r} is not a file or directory', file=sys.stderr)
+    sys.exit(1)
 
-    print(f'Parsing {args.sla_xml}...', file=sys.stderr)
-    tree = ET.parse(args.sla_xml)
+# ---------------------------------------------------------------------------
+# Per-file processing
+# ---------------------------------------------------------------------------
+
+def process_file(sla_xml: str, args):
+    print(f'=== {sla_xml} ===', file=sys.stderr)
+
+    tree = ET.parse(sla_xml)
     root = tree.getroot()
 
     # Build source file index
@@ -545,7 +518,6 @@ def main():
     for sf in root.findall('sourcefiles/sourcefile'):
         source_names[sf.get('index', '0')] = sf.get('name', '?')
 
-    print('Building symbol table...', file=sys.stderr)
     sym = SymbolTable()
     sym.build(root)
 
@@ -555,14 +527,9 @@ def main():
     show_build  = not args.no_build
     show_source = not args.no_source
 
-    # Decide which parents to include
     # parent="0x0" = instruction table; others = subtables
-    if args.subtables:
-        target_parents = None  # all
-    else:
-        target_parents = {'0x0'}
+    target_parents = None if args.subtables else {'0x0'}
 
-    print('Rendering constructors...', file=sys.stderr)
     count = 0
     for ctor in sym_table.iter('constructor'):
         parent = ctor.get('parent', '')
@@ -578,7 +545,6 @@ def main():
                                      show_source=show_source)
 
         if filter_str:
-            # Check mnemonic line (index 1 if source shown, else 0)
             mnemonic_line = rendered[1] if show_source and len(rendered) > 1 else rendered[0]
             if filter_str not in mnemonic_line.lower():
                 continue
@@ -587,7 +553,45 @@ def main():
         print('\n'.join(rendered))
         count += 1
 
-    print(f'\n# {count} constructors rendered', file=sys.stderr)
+    print(f'# {count} constructors rendered from {os.path.basename(sla_xml)}',
+          file=sys.stderr)
+    return count
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+
+def main():
+    import argparse
+    parser = argparse.ArgumentParser(
+        description='Dump SLEIGH PCode from .sla.xml files in human-readable form')
+    parser.add_argument('target', nargs='?', default='.',
+                        help='A .sla.xml file, a processor directory, or a parent '
+                             'directory to search recursively (default: current directory)')
+    parser.add_argument('--filter', '-f', metavar='SUBSTR',
+                        help='Only show constructors whose mnemonic contains SUBSTR '
+                             '(case-insensitive)')
+    parser.add_argument('--source', '-s', metavar='N', type=int, default=None,
+                        help='Only show constructors from source file index N')
+    parser.add_argument('--no-build', action='store_true',
+                        help='Hide BUILD ops')
+    parser.add_argument('--no-source', action='store_true',
+                        help='Hide source file/line annotations')
+    parser.add_argument('--subtables', action='store_true',
+                        help='Also dump non-instruction subtable constructors')
+    args = parser.parse_args()
+
+    files = find_sla_xml_files(args.target)
+    if not files:
+        sys.exit(1)
+
+    total = 0
+    for f in files:
+        total += process_file(f, args)
+
+    if len(files) > 1:
+        print(f'\n# Total: {total} constructors across {len(files)} files',
+              file=sys.stderr)
 
 if __name__ == '__main__':
     main()
