@@ -12,7 +12,9 @@
       "Bash(python3 sla_dump.py x86.sla.xml --filter SHR --no-source)",
       "Bash(python3 sla_dump.py x86.sla.xml --filter \"SHR \" --no-source)",
       "Bash(./gradlew :SoftwareModeling:clean 2>&1 | tail -5)",
-      "Bash(./gradlew :6502:sleighCompile --rerun-tasks -PsleighExtraArgs=\"-y\" 2>&1 | tail -20)"
+      "Bash(./gradlew:*",
+      "Bash(python3:*)",
+      "Bash(python3 *)"      
     ]
   }
 }

@@ -1,5 +1,6 @@
 
 # 6502.slaspec:127
+# encoding: byte[0]&E3=61
 ADC OP1
   # BUILD OP1
   TMP1:OP1.size = COPY OP1:OP1.size
@@ -12,6 +13,7 @@ ADC OP1
   V = COPY C
 
 # 6502.slaspec:140
+# encoding: byte[0]&E3=21
 AND OP1
   # BUILD OP1
   A = INT_AND A, OP1:OP1.size
@@ -19,6 +21,7 @@ AND OP1
   N = INT_SLESS A, 0
 
 # 6502.slaspec:146
+# encoding: 1E
 ASL OP2
   # BUILD OP2
   TMP1:OP2.size = COPY OP2:OP2.size
@@ -29,22 +32,26 @@ ASL OP2
   N = INT_SLESS TMP1:OP2.size, 0
 
 # 6502.slaspec:155
+# encoding: 90
 BCC REL
   # BUILD REL
   TMP1:1 = INT_EQUAL C, 0
   if (TMP1:1) goto REL:REL.size
 
 # 6502.slaspec:160
+# encoding: B0
 BCS REL
   # BUILD REL
   if (C) goto REL:REL.size
 
 # 6502.slaspec:165
+# encoding: F0
 BEQ REL
   # BUILD REL
   if (Z) goto REL:REL.size
 
 # 6502.slaspec:170
+# encoding: 2C
 BIT OP2
   # BUILD OP2
   TMP1:OP2.size = INT_AND OP2:OP2.size, 0x80
@@ -55,23 +62,27 @@ BIT OP2
   Z = INT_EQUAL TMP3:1, 0
 
 # 6502.slaspec:178
+# encoding: 30
 BMI REL
   # BUILD REL
   if (N) goto REL:REL.size
 
 # 6502.slaspec:183
+# encoding: D0
 BNE REL
   # BUILD REL
   TMP1:1 = INT_EQUAL Z, 0
   if (TMP1:1) goto REL:REL.size
 
 # 6502.slaspec:188
+# encoding: 10
 BPL REL
   # BUILD REL
   TMP1:1 = INT_EQUAL N, 0
   if (TMP1:1) goto REL:REL.size
 
 # 6502.slaspec:193
+# encoding: 00
 BRK
   TMP1:2 = INT_SUB S, 1
   *TMP1:2 = inst_next
@@ -105,33 +116,40 @@ BRK
   goto [TMP16:2]
 
 # 6502.slaspec:204
+# encoding: 50
 BVC REL
   # BUILD REL
   TMP1:1 = INT_EQUAL V, 0
   if (TMP1:1) goto REL:REL.size
 
 # 6502.slaspec:209
+# encoding: 70
 BVS REL
   # BUILD REL
   if (V) goto REL:REL.size
 
 # 6502.slaspec:214
+# encoding: 18
 CLC
   C = COPY 0
 
 # 6502.slaspec:219
+# encoding: D8
 CLD
   D = COPY 0
 
 # 6502.slaspec:224
+# encoding: 58
 CLI
   I = COPY 0
 
 # 6502.slaspec:229
+# encoding: B8
 CLV
   V = COPY 0
 
 # 6502.slaspec:234
+# encoding: byte[0]&E3=C1
 CMP OP1
   # BUILD OP1
   TMP1:OP1.size = COPY OP1:OP1.size
@@ -141,6 +159,7 @@ CMP OP1
   C = INT_LESSEQUAL TMP1:OP1.size, A
 
 # 6502.slaspec:242
+# encoding: EC
 CPX OP2
   # BUILD OP2
   TMP1:OP2.size = COPY OP2:OP2.size
@@ -150,6 +169,7 @@ CPX OP2
   C = INT_LESSEQUAL TMP1:OP2.size, X
 
 # 6502.slaspec:250
+# encoding: CC
 CPY OP2
   # BUILD OP2
   TMP1:OP2.size = COPY OP2:OP2.size
@@ -159,6 +179,7 @@ CPY OP2
   C = INT_LESSEQUAL TMP1:OP2.size, Y
 
 # 6502.slaspec:258
+# encoding: DE
 DEC OP2
   # BUILD OP2
   TMP1:OP2.size = INT_SUB OP2:OP2.size, 1
@@ -167,18 +188,21 @@ DEC OP2
   N = INT_SLESS TMP1:OP2.size, 0
 
 # 6502.slaspec:265
+# encoding: CA
 DEX
   X = INT_SUB X, 1
   Z = INT_EQUAL X, 0
   N = INT_SLESS X, 0
 
 # 6502.slaspec:272
+# encoding: 88
 DEY
   Y = INT_SUB Y, 1
   Z = INT_EQUAL Y, 0
   N = INT_SLESS Y, 0
 
 # 6502.slaspec:278
+# encoding: byte[0]&E3=41
 EOR OP1
   # BUILD OP1
   A = INT_XOR A, OP1:OP1.size
@@ -186,6 +210,7 @@ EOR OP1
   N = INT_SLESS A, 0
 
 # 6502.slaspec:285
+# encoding: FE
 INC OP2
   # BUILD OP2
   TMP1:OP2.size = INT_ADD OP2:OP2.size, 1
@@ -194,28 +219,33 @@ INC OP2
   N = INT_SLESS TMP1:OP2.size, 0
 
 # 6502.slaspec:292
+# encoding: C8
 INY
   Y = INT_ADD Y, 1
   Z = INT_EQUAL Y, 0
   N = INT_SLESS Y, 0
 
 # 6502.slaspec:298
+# encoding: E8
 INX
   X = INT_ADD X, 1
   Z = INT_EQUAL X, 0
   N = INT_SLESS X, 0
 
 # 6502.slaspec:304
+# encoding: 4C
 JMP ADDR16
   # BUILD ADDR16
   goto ADDR16:ADDR16.size
 
 # 6502.slaspec:309
+# encoding: 6C
 JMP ADDRI
   # BUILD ADDRI
   goto [ADDRI:ADDRI.size]
 
 # 6502.slaspec:314
+# encoding: 20
 JSR ADDR16
   # BUILD ADDR16
   TMP1:2 = INT_SUB S, 1
@@ -224,6 +254,7 @@ JSR ADDR16
   call ADDR16:ADDR16.size
 
 # 6502.slaspec:321
+# encoding: byte[0]&E3=A1
 LDA OP1
   # BUILD OP1
   A = COPY OP1:OP1.size
@@ -231,6 +262,7 @@ LDA OP1
   N = INT_SLESS A, 0
 
 # 6502.slaspec:327
+# encoding: BC
 LDY OP2
   # BUILD OP2
   Y = COPY OP2:OP2.size
@@ -238,6 +270,7 @@ LDY OP2
   N = INT_SLESS Y, 0
 
 # 6502.slaspec:333
+# encoding: BE
 LDX OP2LD
   # BUILD OP2LD
   X = COPY OP2LD:OP2LD.size
@@ -245,6 +278,7 @@ LDX OP2LD
   N = INT_SLESS X, 0
 
 # 6502.slaspec:339
+# encoding: 5E
 LSR OP2
   # BUILD OP2
   TMP1:OP2.size = COPY OP2:OP2.size
@@ -255,10 +289,12 @@ LSR OP2
   N = COPY 0
 
 # 6502.slaspec:349
+# encoding: EA
 NOP
   # (no ops)
 
 # 6502.slaspec:353
+# encoding: byte[0]&E3=01
 ORA OP1
   # BUILD OP1
   A = INT_OR A, OP1:OP1.size
@@ -266,6 +302,7 @@ ORA OP1
   N = INT_SLESS A, 0
 
 # 6502.slaspec:359
+# encoding: 08
 PHP
   TMP1:1 = COPY -1
   TMP2:1 = INT_AND TMP1:1, 0xfffffffffffffe7f
@@ -292,6 +329,7 @@ PHP
   S = INT_SUB S, 1
 
 # 6502.slaspec:364
+# encoding: 28
 PLP
   S = INT_ADD S, 1
   TMP1:1 = *S
@@ -309,11 +347,13 @@ PLP
   C = INT_AND TMP1:1, 1
 
 # 6502.slaspec:369
+# encoding: 48
 PHA
   *S = A
   S = INT_SUB S, 1
 
 # 6502.slaspec:375
+# encoding: 68
 PLA
   S = INT_ADD S, 1
   A = *S
@@ -321,6 +361,7 @@ PLA
   N = INT_SLESS A, 0
 
 # 6502.slaspec:382
+# encoding: 3E
 ROL OP2
   # BUILD OP2
   TMP1:1 = COPY C
@@ -333,6 +374,7 @@ ROL OP2
   N = INT_SLESS TMP3:OP2.size, 0
 
 # 6502.slaspec:393
+# encoding: 7E
 ROR OP2
   # BUILD OP2
   TMP1:1 = INT_LEFT C, 7
@@ -345,6 +387,7 @@ ROR OP2
   N = INT_SLESS TMP2:OP2.size, 0
 
 # 6502.slaspec:404
+# encoding: 40
 RTI
   S = INT_ADD S, 1
   TMP1:1 = *S
@@ -366,6 +409,7 @@ RTI
   return TMP7:2
 
 # 6502.slaspec:415
+# encoding: 60
 RTS
   S = INT_ADD S, 1
   TMP1:2 = *S
@@ -373,6 +417,7 @@ RTS
   return TMP1:2
 
 # 6502.slaspec:424
+# encoding: byte[0]&E3=E1
 SBC OP1
   # BUILD OP1
   TMP1:OP1.size = COPY OP1:OP1.size
@@ -401,61 +446,73 @@ SBC OP1
   A = COPY TMP4:1
 
 # 6502.slaspec:437
+# encoding: 38
 SEC
   C = COPY 1
 
 # 6502.slaspec:442
+# encoding: F8
 SED
   D = COPY 1
 
 # 6502.slaspec:447
+# encoding: 78
 SEI
   I = COPY 1
 
 # 6502.slaspec:452
+# encoding: byte[0]&E3=81
 STA OP1
   # BUILD OP1
   OP1:OP1.size = COPY A
 
 # 6502.slaspec:457
+# encoding: 96
 STX OP2ST
   # BUILD OP2ST
   OP2ST:OP2ST.size = COPY X
 
 # 6502.slaspec:462
+# encoding: 94
 STY OP2
   # BUILD OP2
   OP2:OP2.size = COPY Y
 
 # 6502.slaspec:467
+# encoding: AA
 TAX
   X = COPY A
   Z = INT_EQUAL X, 0
   N = INT_SLESS X, 0
 
 # 6502.slaspec:473
+# encoding: A8
 TAY
   Y = COPY A
   Z = INT_EQUAL Y, 0
   N = INT_SLESS Y, 0
 
 # 6502.slaspec:479
+# encoding: BA
 TSX
   X = COPY S
   Z = INT_EQUAL X, 0
   N = INT_SLESS X, 0
 
 # 6502.slaspec:485
+# encoding: 8A
 TXA
   A = COPY X
   Z = INT_EQUAL A, 0
   N = INT_SLESS A, 0
 
 # 6502.slaspec:491
+# encoding: 9A
 TXS
   S = COPY X
 
 # 6502.slaspec:496
+# encoding: 98
 TYA
   A = COPY Y
   Z = INT_EQUAL A, 0

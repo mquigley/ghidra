@@ -60,6 +60,23 @@ Claude will read the relevant NOTES.md and have immediate context without re-exp
 | 13 | `RelocationManager` | Relocation records |
 | 14 | `SourceFileManagerDB` | Source file/line mappings |
 
+It also contains the following objects
+```java
+	private ManagerDB[] managers = new ManagerDB[NUM_MANAGERS];
+	private OldFunctionManager oldFunctionMgr;
+	private MemoryMapDB memoryManager;
+	private GlobalNamespace globalNamespace;
+
+	private boolean changeable = true;
+	private ProgramAddressFactory addressFactory;
+	private AddressMapDB addrMap;
+	private ListingDB listing;
+	private ProgramUserDataDB programUserData;
+	private DBStringMapAdapter dataMap;
+	private Language language;
+	private CompilerSpec compilerSpec;
+```
+
 ## Concepts
 
 [MEMORY_ADDRESSES.md](MEMORY_ADDRESSES.md) - Describes Memory, AddressSpaces, and Addresses.
