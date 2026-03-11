@@ -79,6 +79,27 @@ It also contains the following objects
 
 ## Concepts
 
+### MemoryMapDB — owns the bytes and the address space layout
+
+Knows about memory blocks: where they are, how big they are, what flags they have (read/write/execute/initialized)
+Provides getByte(addr), getBytes(addr, buf), createInitializedBlock(), removeBlock()
+Has no concept of instructions, data types, or code units
+Answers: "what bytes exist at this address, and in what block?"
+
+`MemoryMapDB` changes when a loader adds/removes memory blocks (`BYTE_ANALYZER` triggers)
+
+### CodeManager — owns the interpretation of those bytes
+
+Knows about instructions and data: what type is defined at each address, how many bytes it covers
+Provides getCodeUnitAt(addr), getInstructionAt(addr), createInstruction(), createCodeUnit()
+Has no concept of memory blocks or byte storage — it delegates to MemoryMapDB when it needs actual bytes
+Answers: "what does Ghidra say this address is — instruction, defined data, or undefined?"
+
+`CodeManager` changes when disassembly/data definition happens (`INSTRUCTION_ANALYZER`, `DATA_ANALYZER` triggers)
+
+
+## In depth discussions
+
 [MEMORY_ADDRESSES.md](MEMORY_ADDRESSES.md) - Describes Memory, AddressSpaces, and Addresses.
 
 [ANALYZER.md](ANALYZER.md) - Describes the auto-analysis framework: Analyzer interface, AnalyzerType triggers, AnalysisPriority ordering, AutoAnalysisManager scheduling, and built-in analyzers.
