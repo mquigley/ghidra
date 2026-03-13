@@ -109,3 +109,5 @@ Answers: "what does Ghidra say this address is — instruction, defined data, or
 [CODEMANAGER.md](CODEMANAGER.md) - Describes how CodeManager classifies addresses as code, data, or undefined: two B-Tree DB tables (instAdapter, dataAdapter), LRU object cache, synthesized undefined Data, and the orthogonal distinction between uninitialized memory blocks and undefined data types.
 
 [REGISTERCONTEXT.md](REGISTERCONTEXT.md) - Describes how ProgramRegisterContextDB stores CPU and context register values at address ranges: two maps (persistent DB-backed vs ephemeral language defaults), AddressRangeMapDB storage, MzLoader segment register setup, and why SymbolicPropagator discoveries are not persisted.
+
+[SYMBOLMANAGER.md](SYMBOLMANAGER.md) - Describes the SymbolManager: SymbolType constants, SourceType trust hierarchy, dynamic symbol synthesis (FUN_/LAB_/DAT_ auto-labels from reference presence, not stored in DB), FunctionSymbol coexistence, multiple symbols per address, and label history.

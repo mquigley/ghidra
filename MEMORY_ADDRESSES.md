@@ -108,25 +108,25 @@ takes the language's spaces and adds several more:
 
 | Space | Type | Size | Source |
 |---|---|---|---|
-| `ram` | `TYPE_RAM` | language-defined | SLEIGH `.ldefs` |
-| `register` | `TYPE_REGISTER` | language-defined | SLEIGH `.ldefs` |
-| `unique` | `TYPE_UNIQUE` | language-defined | SLEIGH `.ldefs` |
-| `OTHER_SPACE` | `TYPE_OTHER` | 64-bit | `ProgramAddressFactory` |
-| `EXTERNAL_SPACE` | `TYPE_EXTERNAL` | 32-bit | `ProgramAddressFactory` |
-| stack space | `TYPE_STACK` | from `CompilerSpec` | `ProgramAddressFactory` |
-| `HASH_SPACE` | `TYPE_HASH` | 60-bit | `ProgramAddressFactory` |
-| `VARIABLE_SPACE` | `TYPE_VARIABLE` | 32-bit | `ProgramAddressFactory` |
+| `ram`            | `TYPE_RAM`      | language-defined | SLEIGH `.ldefs` |
+| `register`       | `TYPE_REGISTER` | language-defined | SLEIGH `.ldefs` |
+| `unique`         | `TYPE_UNIQUE`   | language-defined | SLEIGH `.ldefs` |
+| `OTHER_SPACE`    | `TYPE_OTHER`    | 64-bit           | `ProgramAddressFactory` |
+| `EXTERNAL_SPACE` | `TYPE_EXTERNAL` | 32-bit           | `ProgramAddressFactory` |
+| stack space      | `TYPE_STACK`    | from `CompilerSpec` | `ProgramAddressFactory` |
+| `HASH_SPACE`     | `TYPE_HASH`     | 60-bit           | `ProgramAddressFactory` |
+| `VARIABLE_SPACE` | `TYPE_VARIABLE` | 32-bit           | `ProgramAddressFactory` |
 
 ### Address Space Types
 
 | Constant | Value | Purpose |
 |---|---|---|
-| `TYPE_RAM` | 1 | Normal memory (default for most programs) |
-| `TYPE_REGISTER` | 4 | Processor registers |
-| `TYPE_STACK` | 5 | Stack-relative offsets (signed) |
-| `TYPE_UNIQUE` | 3 | Decompiler temporaries |
-| `TYPE_CONSTANT` | 0 | Constants (signed offset space) |
-| `TYPE_OTHER` | 7 | Non-loaded data (debug info, DOS header, etc.) |
+| `TYPE_RAM`      | 1  | Normal memory (default for most programs) |
+| `TYPE_REGISTER` | 4  | Processor registers |
+| `TYPE_STACK`    | 5  | Stack-relative offsets (signed) |
+| `TYPE_UNIQUE`   | 3  | Decompiler temporaries |
+| `TYPE_CONSTANT` | 0  | Constants (signed offset space) |
+| `TYPE_OTHER`    | 7  | Non-loaded data (debug info, DOS header, etc.) |
 | `TYPE_EXTERNAL` | 10 | External library locations |
 | `TYPE_VARIABLE` | 11 | Function variables/parameters |
 

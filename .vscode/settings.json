@@ -1,5 +1,10 @@
 {
   "java.compile.nullAnalysis.mode": "automatic",
   "java.autobuild.enabled": false,
-  "java.import.gradle.enabled": false
+  "java.import.gradle.enabled": false,
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#92400E",
+    "titleBar.activeForeground": "#FFFFFF",
+    "titleBar.inactiveBackground": "#1E3A8A99"
+  }
 }
