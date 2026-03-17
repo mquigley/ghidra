@@ -3,8 +3,8 @@
   "java.autobuild.enabled": false,
   "java.import.gradle.enabled": false,
   "workbench.colorCustomizations": {
-    "titleBar.activeBackground": "#92400E",
+    "titleBar.activeBackground": "#7F1D1D",
     "titleBar.activeForeground": "#FFFFFF",
-    "titleBar.inactiveBackground": "#1E3A8A99"
+    "titleBar.inactiveBackground": "#4A1111"
   }
 }
