@@ -30,9 +30,22 @@ Options:
     --subtables       Also dump non-instruction subtable constructors
 """
 
-import sys
-import os
+
+# python3 sla_dump.py Z80 >z80_opcodes.txt
+# ~/dev/ghidra/Ghidra/Processors ➜  python3 sla_dump.py 6502/ >6502_opcodes.txt
+# python3 sla_dump.py x86/ >x86_opcodes.txt
+# First, build all processors
+#   ~/dev/ghidra ➜  ./gradlew sleighCompile --rerun-tasks -PsleighExtraArgs="-y"
+#   ~/dev/ghidra ➜ ./gradlew :x86:sleighCompile --rerun-tasks -PsleighExtraArgs="-y"
+# This creates files like Ghidra/Processors/AARCH64/data/languages/AARCH64.sla.
+# Then you must rename those .sla files to .xml files.
+#   ~/dev/ghidra/Ghidra/Processors ➜ python3 sla_dump.py x86.sla.xml > x86_pcode.txt
+#   ~/dev/ghidra/Ghidra/Processors ➜ python3 sla_dump.py x86.sla.xml --subtables > x86_pcode2.txt
+
+
 import glob
+import os
+import sys
 import xml.etree.ElementTree as ET
 
 # ---------------------------------------------------------------------------
