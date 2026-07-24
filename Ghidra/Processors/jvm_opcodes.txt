@@ -1,0 +1,2292 @@
+
+# JVM.slaspec:222
+# encoding: 32  [in_lookup_switch=0, in_table_switch=0]
+aaload
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = INT_MULT 4, TMP1:4
+  TMP4:4 = INT_ADD TMP2:4, TMP3:4
+  TMP5:4 = *TMP4:4
+  SP = INT_SUB SP, 4
+  *SP = TMP5:4
+
+# JVM.slaspec:233
+# encoding: 53  [in_lookup_switch=0, in_table_switch=0]
+aastore
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP3:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:4 = INT_MULT 4, TMP1:4
+  TMP5:4 = INT_ADD TMP2:4, TMP4:4
+  *TMP5:4 = TMP3:4
+
+# JVM.slaspec:246
+# encoding: 01  [in_lookup_switch=0, in_table_switch=0]
+aconst_null
+  SP = INT_SUB SP, 4
+  *SP = 0
+
+# JVM.slaspec:251
+# encoding: 19  [in_lookup_switch=0, in_table_switch=0]
+aload index
+  LVA = INT_MULT 4, index:4
+  TMP1:4 = *LVA
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:258
+# encoding: 2A  [in_lookup_switch=0, in_table_switch=0]
+aload_0
+  LVA = COPY 0
+  TMP1:4 = *LVA
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:265
+# encoding: 2B  [in_lookup_switch=0, in_table_switch=0]
+aload_1
+  LVA = INT_MULT 1, 4
+  TMP1:4 = *LVA
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:272
+# encoding: 2C  [in_lookup_switch=0, in_table_switch=0]
+aload_2
+  LVA = INT_MULT 2, 4
+  TMP1:4 = *LVA
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:279
+# encoding: 2D  [in_lookup_switch=0, in_table_switch=0]
+aload_3
+  LVA = INT_MULT 3, 4
+  TMP1:4 = *LVA
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:286
+# encoding: BD  [in_lookup_switch=0, in_table_switch=0]
+anewarray index
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = CPOOLREF 0, index:8, 0
+  TMP2:4 = NEW TMP3:4, TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+
+# JVM.slaspec:296
+# encoding: B0  [in_lookup_switch=0, in_table_switch=0]
+areturn
+  return_value = *SP
+  SP = INT_ADD SP, 4
+  return return_address
+
+# JVM.slaspec:302
+# encoding: BE  [in_lookup_switch=0, in_table_switch=0]
+arraylength
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = CPOOLREF TMP1:4, 0, 0x11
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+
+# JVM.slaspec:311
+# encoding: 3A  [in_lookup_switch=0, in_table_switch=0]
+astore index
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  LVA = INT_MULT index:4, 4
+  *LVA = TMP1:4
+
+# JVM.slaspec:319
+# encoding: 4B  [in_lookup_switch=0, in_table_switch=0]
+astore_0
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  LVA = COPY 0
+  *LVA = TMP1:4
+
+# JVM.slaspec:327
+# encoding: 4C  [in_lookup_switch=0, in_table_switch=0]
+astore_1
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  LVA = INT_MULT 1, 4
+  *LVA = TMP1:4
+
+# JVM.slaspec:335
+# encoding: 4D  [in_lookup_switch=0, in_table_switch=0]
+astore_2
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  LVA = INT_MULT 2, 4
+  *LVA = TMP1:4
+
+# JVM.slaspec:344
+# encoding: 4E  [in_lookup_switch=0, in_table_switch=0]
+astore_3
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  LVA = INT_MULT 3, 4
+  *LVA = TMP1:4
+
+# JVM.slaspec:352
+# encoding: BF  [in_lookup_switch=0, in_table_switch=0]
+athrow
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  athrowOp(TMP1:4)
+  label[0x0]:
+  SP = COPY SP
+  goto label[0x0]
+
+# JVM.slaspec:362
+# encoding: 33  [in_lookup_switch=0, in_table_switch=0]
+baload
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:1 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:4 = INT_ADD TMP2:4, TMP1:4
+  TMP3:1 = *TMP4:4
+  TMP5:4 = INT_SEXT TMP3:1
+  SP = INT_SUB SP, 4
+  *SP = TMP5:4
+
+# JVM.slaspec:375
+# encoding: 54  [in_lookup_switch=0, in_table_switch=0]
+bastore
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:4 = INT_ADD TMP3:4, TMP2:4
+  *TMP4:4 = TMP5:1
+
+# JVM.slaspec:387
+# encoding: 10  [in_lookup_switch=0, in_table_switch=0]
+bipush sbyte
+  TMP1:4 = INT_SEXT sbyte:1
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:393
+# encoding: 34  [in_lookup_switch=0, in_table_switch=0]
+caload
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:2 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:4 = INT_MULT 2, TMP1:4
+  TMP5:4 = INT_ADD TMP2:4, TMP4:4
+  TMP3:2 = *TMP5:4
+  TMP6:4 = INT_ZEXT TMP3:2
+  SP = INT_SUB SP, 4
+  *SP = TMP6:4
+
+# JVM.slaspec:406
+# encoding: 55  [in_lookup_switch=0, in_table_switch=0]
+castore
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:4 = INT_MULT 2, TMP2:4
+  TMP5:4 = INT_ADD TMP3:4, TMP4:4
+  *TMP5:4 = TMP6:2
+
+# JVM.slaspec:418
+# encoding: C0  [in_lookup_switch=0, in_table_switch=0]
+checkcast index
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP1:4 = CPOOLREF TMP1:4, index:8, 1
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:440
+# encoding: 90  [in_lookup_switch=0, in_table_switch=0]
+d2f
+  TMP1:8 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:4 = FLOAT2FLOAT TMP1:8
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+
+# JVM.slaspec:451
+# encoding: 8E  [in_lookup_switch=0, in_table_switch=0]
+d2i
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:8 = ROUND TMP1:8
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:461
+# encoding: 8F  [in_lookup_switch=0, in_table_switch=0]
+d2l
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:8 = ROUND TMP1:8
+  SP = INT_SUB SP, 8
+  *SP = TMP2:8
+
+# JVM.slaspec:470
+# encoding: 63  [in_lookup_switch=0, in_table_switch=0]
+dadd
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:8 = COPY 0
+  TMP2:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP3:8 = FLOAT_ADD TMP1:8, TMP2:8
+  SP = INT_SUB SP, 8
+  *SP = TMP3:8
+
+# JVM.slaspec:481
+# encoding: 31  [in_lookup_switch=0, in_table_switch=0]
+daload
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:8 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:4 = INT_MULT 8, TMP1:4
+  TMP5:4 = INT_ADD TMP2:4, TMP4:4
+  TMP3:8 = *TMP5:4
+  SP = INT_SUB SP, 8
+  *SP = TMP3:8
+
+# JVM.slaspec:493
+# encoding: 52  [in_lookup_switch=0, in_table_switch=0]
+dastore
+  TMP1:8 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:4 = INT_MULT 8, TMP2:4
+  TMP5:4 = INT_ADD TMP3:4, TMP4:4
+  *TMP5:4 = TMP1:8
+
+# JVM.slaspec:505
+# encoding: 98  [in_lookup_switch=0, in_table_switch=0]
+dcmpg
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP4:1 = FLOAT_LESS TMP1:8, TMP2:8
+  TMP5:4 = INT_ZEXT TMP4:1
+  TMP6:1 = FLOAT_LESSEQUAL TMP1:8, TMP2:8
+  TMP7:4 = INT_ZEXT TMP6:1
+  TMP8:4 = INT_ADD TMP5:4, TMP7:4
+  TMP3:4 = INT_SUB TMP8:4, 1
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:516
+# encoding: 97  [in_lookup_switch=0, in_table_switch=0]
+dcmpl
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP4:1 = FLOAT_LESS TMP1:8, TMP2:8
+  TMP5:4 = INT_ZEXT TMP4:1
+  TMP6:1 = FLOAT_LESSEQUAL TMP1:8, TMP2:8
+  TMP7:4 = INT_ZEXT TMP6:1
+  TMP8:4 = INT_ADD TMP5:4, TMP7:4
+  TMP3:4 = INT_SUB TMP8:4, 1
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:527
+# encoding: 0E  [in_lookup_switch=0, in_table_switch=0]
+dconst_0
+  TMP1:8 = INT2FLOAT 0
+  SP = INT_SUB SP, 8
+  *SP = TMP1:8
+
+# JVM.slaspec:534
+# encoding: 0F  [in_lookup_switch=0, in_table_switch=0]
+dconst_1
+  TMP1:8 = INT2FLOAT 1
+  SP = INT_SUB SP, 8
+  *SP = TMP1:8
+
+# JVM.slaspec:541
+# encoding: 6F  [in_lookup_switch=0, in_table_switch=0]
+ddiv
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP3:8 = FLOAT_DIV TMP2:8, TMP1:8
+  SP = INT_SUB SP, 8
+  *SP = TMP3:8
+
+# JVM.slaspec:552
+# encoding: 18  [in_lookup_switch=0, in_table_switch=0]
+dload index
+  LVA = INT_MULT index:4, 4
+  TMP1:8 = *LVA
+  SP = INT_SUB SP, 8
+  *SP = TMP1:8
+
+# JVM.slaspec:559
+# encoding: 26  [in_lookup_switch=0, in_table_switch=0]
+dload_0
+  LVA = COPY 0
+  TMP1:8 = *LVA
+  SP = INT_SUB SP, 8
+  *SP = TMP1:8
+
+# JVM.slaspec:566
+# encoding: 27  [in_lookup_switch=0, in_table_switch=0]
+dload_1
+  LVA = INT_MULT 1, 4
+  TMP1:8 = *LVA
+  SP = INT_SUB SP, 8
+  *SP = TMP1:8
+
+# JVM.slaspec:573
+# encoding: 28  [in_lookup_switch=0, in_table_switch=0]
+dload_2
+  LVA = INT_MULT 2, 4
+  TMP1:8 = *LVA
+  SP = INT_SUB SP, 8
+  *SP = TMP1:8
+
+# JVM.slaspec:580
+# encoding: 29  [in_lookup_switch=0, in_table_switch=0]
+dload_3
+  LVA = INT_MULT 3, 4
+  TMP1:8 = *LVA
+  SP = INT_SUB SP, 8
+  *SP = TMP1:8
+
+# JVM.slaspec:587
+# encoding: 6B  [in_lookup_switch=0, in_table_switch=0]
+dmul
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP3:8 = FLOAT_MULT TMP2:8, TMP1:8
+  SP = INT_SUB SP, 8
+  *SP = TMP3:8
+
+# JVM.slaspec:598
+# encoding: 77  [in_lookup_switch=0, in_table_switch=0]
+dneg
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:8 = FLOAT_NEG TMP1:8
+  SP = INT_SUB SP, 8
+  *SP = TMP2:8
+
+# JVM.slaspec:607
+# encoding: 73  [in_lookup_switch=0, in_table_switch=0]
+drem
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP3:8 = dremOp(TMP2:8, TMP1:8)
+  SP = INT_SUB SP, 8
+  *SP = TMP3:8
+
+# JVM.slaspec:618
+# encoding: AF  [in_lookup_switch=0, in_table_switch=0]
+dreturn
+  cat2_return_value = *SP
+  SP = INT_ADD SP, 8
+  return return_address
+
+# JVM.slaspec:624
+# encoding: 39  [in_lookup_switch=0, in_table_switch=0]
+dstore index
+  TMP1:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  LVA = INT_MULT index:4, 4
+  *LVA = TMP1:8
+
+# JVM.slaspec:632
+# encoding: 47  [in_lookup_switch=0, in_table_switch=0]
+dstore_0
+  TMP1:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  LVA = COPY 0
+  *LVA = TMP1:8
+
+# JVM.slaspec:640
+# encoding: 48  [in_lookup_switch=0, in_table_switch=0]
+dstore_1
+  TMP1:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  LVA = INT_MULT 1, 4
+  *LVA = TMP1:8
+
+# JVM.slaspec:648
+# encoding: 49  [in_lookup_switch=0, in_table_switch=0]
+dstore_2
+  TMP1:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  LVA = INT_MULT 2, 4
+  *LVA = TMP1:8
+
+# JVM.slaspec:656
+# encoding: 4A  [in_lookup_switch=0, in_table_switch=0]
+dstore_3
+  TMP1:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  LVA = INT_MULT 3, 4
+  *LVA = TMP1:8
+
+# JVM.slaspec:664
+# encoding: 67  [in_lookup_switch=0, in_table_switch=0]
+dsub
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP3:8 = FLOAT_SUB TMP2:8, TMP1:8
+  SP = INT_SUB SP, 8
+  *SP = TMP3:8
+
+# JVM.slaspec:675
+# encoding: 59  [in_lookup_switch=0, in_table_switch=0]
+dup
+  TMP1:4 = *SP
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:681
+# encoding: 5A  [in_lookup_switch=0, in_table_switch=0]
+dup_x1
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:692
+# encoding: 5B  [in_lookup_switch=0, in_table_switch=0]
+dup_x2
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = *SP
+  SP = INT_ADD SP, 4
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:706
+# encoding: 5C  [in_lookup_switch=0, in_table_switch=0]
+dup2
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:718
+# encoding: 5D  [in_lookup_switch=0, in_table_switch=0]
+dup2_x1
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = *SP
+  SP = INT_ADD SP, 4
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:733
+# encoding: 5E  [in_lookup_switch=0, in_table_switch=0]
+dup2_x2
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP4:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:4 = *SP
+  SP = INT_ADD SP, 4
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP4:4
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:751
+# encoding: 8D  [in_lookup_switch=0, in_table_switch=0]
+f2d
+  TMP1:4 = COPY 0
+  TMP2:8 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:8 = FLOAT2FLOAT TMP1:4
+  SP = INT_SUB SP, 8
+  *SP = TMP2:8
+
+# JVM.slaspec:761
+# encoding: 8B  [in_lookup_switch=0, in_table_switch=0]
+f2i
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = ROUND TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+
+# JVM.slaspec:771
+# encoding: 8C  [in_lookup_switch=0, in_table_switch=0]
+f2l
+  TMP1:4 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:8 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:8 = FLOAT2FLOAT TMP1:4
+  TMP3:8 = ROUND TMP2:8
+  SP = INT_SUB SP, 8
+  *SP = TMP3:8
+
+# JVM.slaspec:782
+# encoding: 62  [in_lookup_switch=0, in_table_switch=0]
+fadd
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = FLOAT_ADD TMP2:4, TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:793
+# encoding: 30  [in_lookup_switch=0, in_table_switch=0]
+faload
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:4 = INT_MULT 4, TMP1:4
+  TMP5:4 = INT_ADD TMP2:4, TMP4:4
+  TMP3:4 = *TMP5:4
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:805
+# encoding: 51  [in_lookup_switch=0, in_table_switch=0]
+fastore
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:4 = INT_MULT 4, TMP2:4
+  TMP5:4 = INT_ADD TMP3:4, TMP4:4
+  *TMP5:4 = TMP1:4
+
+# JVM.slaspec:817
+# encoding: 96  [in_lookup_switch=0, in_table_switch=0]
+fcmpg
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:1 = FLOAT_LESS TMP1:4, TMP2:4
+  TMP5:4 = INT_ZEXT TMP4:1
+  TMP6:1 = FLOAT_LESSEQUAL TMP1:4, TMP2:4
+  TMP7:4 = INT_ZEXT TMP6:1
+  TMP8:4 = INT_ADD TMP5:4, TMP7:4
+  TMP3:4 = INT_SUB TMP8:4, 1
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:828
+# encoding: 95  [in_lookup_switch=0, in_table_switch=0]
+fcmpl
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:1 = FLOAT_LESS TMP1:4, TMP2:4
+  TMP5:4 = INT_ZEXT TMP4:1
+  TMP6:1 = FLOAT_LESSEQUAL TMP1:4, TMP2:4
+  TMP7:4 = INT_ZEXT TMP6:1
+  TMP8:4 = INT_ADD TMP5:4, TMP7:4
+  TMP3:4 = INT_SUB TMP8:4, 1
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:839
+# encoding: 0B  [in_lookup_switch=0, in_table_switch=0]
+fconst_0
+  TMP1:4 = INT2FLOAT 0
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:846
+# encoding: 0C  [in_lookup_switch=0, in_table_switch=0]
+fconst_1
+  TMP1:4 = INT2FLOAT 1
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:853
+# encoding: 0D  [in_lookup_switch=0, in_table_switch=0]
+fconst_2
+  TMP1:4 = INT2FLOAT 2
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:860
+# encoding: 6E  [in_lookup_switch=0, in_table_switch=0]
+fdiv
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = FLOAT_DIV TMP2:4, TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:871
+# encoding: 17  [in_lookup_switch=0, in_table_switch=0]
+fload index
+  LVA = INT_MULT 4, index:4
+  TMP1:4 = *LVA
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:878
+# encoding: 22  [in_lookup_switch=0, in_table_switch=0]
+fload_0
+  LVA = COPY 0
+  TMP1:4 = *LVA
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:885
+# encoding: 23  [in_lookup_switch=0, in_table_switch=0]
+fload_1
+  LVA = INT_MULT 1, 4
+  TMP1:4 = *LVA
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:892
+# encoding: 24  [in_lookup_switch=0, in_table_switch=0]
+fload_2
+  LVA = INT_MULT 2, 4
+  TMP1:4 = *LVA
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:899
+# encoding: 25  [in_lookup_switch=0, in_table_switch=0]
+fload_3
+  LVA = INT_MULT 3, 4
+  TMP1:4 = *LVA
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:906
+# encoding: 6A  [in_lookup_switch=0, in_table_switch=0]
+fmul
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = FLOAT_MULT TMP2:4, TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:917
+# encoding: 76  [in_lookup_switch=0, in_table_switch=0]
+fneg
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = FLOAT_NEG TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+
+# JVM.slaspec:926
+# encoding: 72  [in_lookup_switch=0, in_table_switch=0]
+frem
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = fremOp(TMP2:4, TMP1:4)
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:937
+# encoding: AE  [in_lookup_switch=0, in_table_switch=0]
+freturn
+  return_value = *SP
+  SP = INT_ADD SP, 4
+  return return_address
+
+# JVM.slaspec:943
+# encoding: 38  [in_lookup_switch=0, in_table_switch=0]
+fstore index
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  LVA = INT_MULT index:4, 4
+  *LVA = TMP1:4
+
+# JVM.slaspec:951
+# encoding: 43  [in_lookup_switch=0, in_table_switch=0]
+fstore_0
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  LVA = COPY 0
+  *LVA = TMP1:4
+
+# JVM.slaspec:959
+# encoding: 44  [in_lookup_switch=0, in_table_switch=0]
+fstore_1
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  LVA = INT_MULT 1, 4
+  *LVA = TMP1:4
+
+# JVM.slaspec:966
+# encoding: 45  [in_lookup_switch=0, in_table_switch=0]
+fstore_2
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  LVA = INT_MULT 2, 4
+  *LVA = TMP1:4
+
+# JVM.slaspec:973
+# encoding: 46  [in_lookup_switch=0, in_table_switch=0]
+fstore_3
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  LVA = INT_MULT 3, 4
+  *LVA = TMP1:4
+
+# JVM.slaspec:981
+# encoding: 66  [in_lookup_switch=0, in_table_switch=0]
+fsub
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = FLOAT_SUB TMP2:4, TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:992
+# encoding: B4  [in_lookup_switch=0, in_table_switch=0]
+getfield index
+  getFieldCallOther(index:2)
+
+# JVM.slaspec:998
+# encoding: B2  [in_lookup_switch=0, in_table_switch=0]
+getstatic index
+  getStaticCallOther(index:2)
+
+# JVM.slaspec:1003
+# encoding: A7  [in_lookup_switch=0, in_table_switch=0]
+goto Branch
+  # BUILD Branch
+  goto Branch:Branch.size
+
+# JVM.slaspec:1008
+# encoding: C8  [in_lookup_switch=0, in_table_switch=0]
+goto_w Branch_w
+  # BUILD Branch_w
+  goto Branch_w:Branch_w.size
+
+# JVM.slaspec:1013
+# encoding: 91  [in_lookup_switch=0, in_table_switch=0]
+i2b
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = INT_SEXT TMP3:1
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+
+# JVM.slaspec:1023
+# encoding: 92  [in_lookup_switch=0, in_table_switch=0]
+i2c
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = INT_ZEXT TMP3:2
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+
+# JVM.slaspec:1033
+# encoding: 87  [in_lookup_switch=0, in_table_switch=0]
+i2d
+  TMP1:4 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:8 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:8 = INT_SEXT TMP1:4
+  TMP3:8 = INT2FLOAT TMP2:8
+  SP = INT_SUB SP, 8
+  *SP = TMP3:8
+
+# JVM.slaspec:1044
+# encoding: 86  [in_lookup_switch=0, in_table_switch=0]
+i2f
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = INT2FLOAT TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+
+# JVM.slaspec:1053
+# encoding: 85  [in_lookup_switch=0, in_table_switch=0]
+i2l
+  TMP1:4 = COPY 0
+  TMP2:8 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:8 = INT_SEXT TMP1:4
+  SP = INT_SUB SP, 8
+  *SP = TMP2:8
+
+# JVM.slaspec:1062
+# encoding: 93  [in_lookup_switch=0, in_table_switch=0]
+i2s
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = INT_SEXT TMP3:2
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+
+# JVM.slaspec:1072
+# encoding: 60  [in_lookup_switch=0, in_table_switch=0]
+iadd
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = INT_ADD TMP2:4, TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:1083
+# encoding: 2E  [in_lookup_switch=0, in_table_switch=0]
+iaload
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:4 = INT_MULT 4, TMP1:4
+  TMP5:4 = INT_ADD TMP2:4, TMP4:4
+  TMP3:4 = *TMP5:4
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:1095
+# encoding: 7E  [in_lookup_switch=0, in_table_switch=0]
+iand
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = INT_AND TMP2:4, TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:1106
+# encoding: 4F  [in_lookup_switch=0, in_table_switch=0]
+iastore
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:4 = INT_MULT 4, TMP2:4
+  TMP5:4 = INT_ADD TMP3:4, TMP4:4
+  *TMP5:4 = TMP1:4
+
+# JVM.slaspec:1118
+# encoding: 02  [in_lookup_switch=0, in_table_switch=0]
+iconst_m1
+  TMP1:4 = INT_2COMP 1
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:1124
+# encoding: 03  [in_lookup_switch=0, in_table_switch=0]
+iconst_0
+  SP = INT_SUB SP, 4
+  *SP = 0
+
+# JVM.slaspec:1130
+# encoding: 04  [in_lookup_switch=0, in_table_switch=0]
+iconst_1
+  SP = INT_SUB SP, 4
+  *SP = 1
+
+# JVM.slaspec:1136
+# encoding: 05  [in_lookup_switch=0, in_table_switch=0]
+iconst_2
+  SP = INT_SUB SP, 4
+  *SP = 2
+
+# JVM.slaspec:1142
+# encoding: 06  [in_lookup_switch=0, in_table_switch=0]
+iconst_3
+  SP = INT_SUB SP, 4
+  *SP = 3
+
+# JVM.slaspec:1148
+# encoding: 07  [in_lookup_switch=0, in_table_switch=0]
+iconst_4
+  SP = INT_SUB SP, 4
+  *SP = 4
+
+# JVM.slaspec:1154
+# encoding: 08  [in_lookup_switch=0, in_table_switch=0]
+iconst_5
+  SP = INT_SUB SP, 4
+  *SP = 5
+
+# JVM.slaspec:1160
+# encoding: 6C  [in_lookup_switch=0, in_table_switch=0]
+idiv
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = INT_SDIV TMP2:4, TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:1171
+# encoding: A5  [in_lookup_switch=0, in_table_switch=0]
+if_acmpeq Branch
+  # BUILD Branch
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:1 = INT_EQUAL TMP2:4, TMP1:4
+  if (TMP3:1) goto Branch:Branch.size
+
+# JVM.slaspec:1180
+# encoding: A6  [in_lookup_switch=0, in_table_switch=0]
+if_acmpne Branch
+  # BUILD Branch
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:1 = INT_NOTEQUAL TMP2:4, TMP1:4
+  if (TMP3:1) goto Branch:Branch.size
+
+# JVM.slaspec:1189
+# encoding: 9F  [in_lookup_switch=0, in_table_switch=0]
+if_icmpeq Branch
+  # BUILD Branch
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:1 = INT_EQUAL TMP2:4, TMP1:4
+  if (TMP3:1) goto Branch:Branch.size
+
+# JVM.slaspec:1198
+# encoding: A0  [in_lookup_switch=0, in_table_switch=0]
+if_icmpne Branch
+  # BUILD Branch
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:1 = INT_NOTEQUAL TMP2:4, TMP1:4
+  if (TMP3:1) goto Branch:Branch.size
+
+# JVM.slaspec:1207
+# encoding: A1  [in_lookup_switch=0, in_table_switch=0]
+if_icmplt Branch
+  # BUILD Branch
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:1 = INT_SLESS TMP2:4, TMP1:4
+  if (TMP3:1) goto Branch:Branch.size
+
+# JVM.slaspec:1216
+# encoding: A2  [in_lookup_switch=0, in_table_switch=0]
+if_icmpge Branch
+  # BUILD Branch
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:1 = INT_SLESSEQUAL TMP1:4, TMP2:4
+  if (TMP3:1) goto Branch:Branch.size
+
+# JVM.slaspec:1225
+# encoding: A3  [in_lookup_switch=0, in_table_switch=0]
+if_icmpgt Branch
+  # BUILD Branch
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:1 = INT_SLESS TMP1:4, TMP2:4
+  if (TMP3:1) goto Branch:Branch.size
+
+# JVM.slaspec:1234
+# encoding: A4  [in_lookup_switch=0, in_table_switch=0]
+if_icmple Branch
+  # BUILD Branch
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:1 = INT_SLESSEQUAL TMP2:4, TMP1:4
+  if (TMP3:1) goto Branch:Branch.size
+
+# JVM.slaspec:1243
+# encoding: 99  [in_lookup_switch=0, in_table_switch=0]
+ifeq Branch
+  # BUILD Branch
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:1 = INT_EQUAL TMP1:4, 0
+  if (TMP2:1) goto Branch:Branch.size
+
+# JVM.slaspec:1250
+# encoding: 9A  [in_lookup_switch=0, in_table_switch=0]
+ifne Branch
+  # BUILD Branch
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:1 = INT_NOTEQUAL TMP1:4, 0
+  if (TMP2:1) goto Branch:Branch.size
+
+# JVM.slaspec:1257
+# encoding: 9B  [in_lookup_switch=0, in_table_switch=0]
+iflt Branch
+  # BUILD Branch
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:1 = INT_SLESS TMP1:4, 0
+  if (TMP2:1) goto Branch:Branch.size
+
+# JVM.slaspec:1264
+# encoding: 9C  [in_lookup_switch=0, in_table_switch=0]
+ifge Branch
+  # BUILD Branch
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:1 = INT_SLESSEQUAL 0, TMP1:4
+  if (TMP2:1) goto Branch:Branch.size
+
+# JVM.slaspec:1271
+# encoding: 9D  [in_lookup_switch=0, in_table_switch=0]
+ifgt Branch
+  # BUILD Branch
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:1 = INT_SLESS 0, TMP1:4
+  if (TMP2:1) goto Branch:Branch.size
+
+# JVM.slaspec:1278
+# encoding: 9E  [in_lookup_switch=0, in_table_switch=0]
+ifle Branch
+  # BUILD Branch
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:1 = INT_SLESSEQUAL TMP1:4, 0
+  if (TMP2:1) goto Branch:Branch.size
+
+# JVM.slaspec:1285
+# encoding: C7  [in_lookup_switch=0, in_table_switch=0]
+ifnonnull Branch
+  # BUILD Branch
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:1 = INT_NOTEQUAL TMP1:4, 0
+  if (TMP2:1) goto Branch:Branch.size
+
+# JVM.slaspec:1292
+# encoding: C6  [in_lookup_switch=0, in_table_switch=0]
+ifnull Branch
+  # BUILD Branch
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:1 = INT_EQUAL TMP1:4, 0
+  if (TMP2:1) goto Branch:Branch.size
+
+# JVM.slaspec:1299
+# encoding: 84  [in_lookup_switch=0, in_table_switch=0]
+iinc index, constant
+  TMP1:4 = COPY 0
+  LVA = INT_MULT index:4, 4
+  TMP1:4 = INT_SEXT constant:1
+  TMP2:4 = *LVA
+  TMP3:4 = INT_ADD TMP2:4, TMP1:4
+  *LVA = TMP3:4
+
+# JVM.slaspec:1307
+# encoding: 15  [in_lookup_switch=0, in_table_switch=0]
+iload index
+  LVA = INT_MULT index:4, 4
+  TMP1:4 = *LVA
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:1314
+# encoding: 1A  [in_lookup_switch=0, in_table_switch=0]
+iload_0
+  LVA = COPY 0
+  TMP1:4 = *LVA
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:1321
+# encoding: 1B  [in_lookup_switch=0, in_table_switch=0]
+iload_1
+  LVA = INT_MULT 1, 4
+  TMP1:4 = *LVA
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:1328
+# encoding: 1C  [in_lookup_switch=0, in_table_switch=0]
+iload_2
+  LVA = INT_MULT 2, 4
+  TMP1:4 = *LVA
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:1334
+# encoding: 1D  [in_lookup_switch=0, in_table_switch=0]
+iload_3
+  LVA = INT_MULT 3, 4
+  TMP1:4 = *LVA
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:1341
+# encoding: 68  [in_lookup_switch=0, in_table_switch=0]
+imul
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = INT_MULT TMP2:4, TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:1352
+# encoding: 74  [in_lookup_switch=0, in_table_switch=0]
+ineg
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = INT_2COMP TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+
+# JVM.slaspec:1361
+# encoding: C1  [in_lookup_switch=0, in_table_switch=0]
+instanceof index
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:1 = CPOOLREF TMP1:4, index:8, 6
+  TMP3:4 = INT_ZEXT TMP2:1
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:1371
+# encoding: BA  [in_lookup_switch=0, in_table_switch=0]
+invokedynamic index, blank1, blank2
+  invokedynamicCallOther(index:2)
+
+# JVM.slaspec:1376
+# encoding: B9  [in_lookup_switch=0, in_table_switch=0]
+invokeinterface index, count, blank1
+  invokeinterfaceCallOther(index:2)
+
+# JVM.slaspec:1381
+# encoding: B7  [in_lookup_switch=0, in_table_switch=0]
+invokespecial index
+  invokespecialCallOther(index:2)
+
+# JVM.slaspec:1386
+# encoding: B8  [in_lookup_switch=0, in_table_switch=0]
+invokestatic index
+  invokestaticCallOther(index:2)
+
+# JVM.slaspec:1391
+# encoding: B6  [in_lookup_switch=0, in_table_switch=0]
+invokevirtual index
+  invokevirtualCallOther(index:2)
+
+# JVM.slaspec:1397
+# encoding: 80  [in_lookup_switch=0, in_table_switch=0]
+ior
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = INT_OR TMP2:4, TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:1409
+# encoding: 70  [in_lookup_switch=0, in_table_switch=0]
+irem
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = INT_SREM TMP2:4, TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:1421
+# encoding: AC  [in_lookup_switch=0, in_table_switch=0]
+ireturn
+  return_value = *SP
+  SP = INT_ADD SP, 4
+  return return_address
+
+# JVM.slaspec:1427
+# encoding: 78  [in_lookup_switch=0, in_table_switch=0]
+ishl
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:4 = INT_AND TMP1:4, 0x1f
+  TMP3:4 = INT_LEFT TMP2:4, TMP4:4
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:1439
+# encoding: 7A  [in_lookup_switch=0, in_table_switch=0]
+ishr
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:4 = INT_AND TMP1:4, 0x1f
+  TMP3:4 = INT_SRIGHT TMP2:4, TMP4:4
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:1451
+# encoding: 36  [in_lookup_switch=0, in_table_switch=0]
+istore index
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  LVA = INT_MULT index:4, 4
+  *LVA = TMP1:4
+
+# JVM.slaspec:1459
+# encoding: 3B  [in_lookup_switch=0, in_table_switch=0]
+istore_0
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  LVA = COPY 0
+  *LVA = TMP1:4
+
+# JVM.slaspec:1467
+# encoding: 3C  [in_lookup_switch=0, in_table_switch=0]
+istore_1
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  LVA = INT_MULT 1, 4
+  *LVA = TMP1:4
+
+# JVM.slaspec:1475
+# encoding: 3D  [in_lookup_switch=0, in_table_switch=0]
+istore_2
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  LVA = INT_MULT 2, 4
+  *LVA = TMP1:4
+
+# JVM.slaspec:1483
+# encoding: 3E  [in_lookup_switch=0, in_table_switch=0]
+istore_3
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  LVA = INT_MULT 3, 4
+  *LVA = TMP1:4
+
+# JVM.slaspec:1491
+# encoding: 64  [in_lookup_switch=0, in_table_switch=0]
+isub
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = INT_SUB TMP2:4, TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:1503
+# encoding: 7C  [in_lookup_switch=0, in_table_switch=0]
+iushr
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:4 = INT_AND TMP1:4, 0x1f
+  TMP3:4 = INT_RIGHT TMP2:4, TMP4:4
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:1515
+# encoding: 82  [in_lookup_switch=0, in_table_switch=0]
+ixor
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = INT_XOR TMP2:4, TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:1527
+# encoding: A8  [in_lookup_switch=0, in_table_switch=0]
+jsr Branch
+  # BUILD Branch
+  SP = INT_SUB SP, 4
+  *SP = inst_next
+  goto Branch:Branch.size
+
+# JVM.slaspec:1534
+# encoding: C9  [in_lookup_switch=0, in_table_switch=0]
+jsr_w Branch_w
+  # BUILD Branch_w
+  SP = INT_SUB SP, 4
+  *SP = inst_next
+  goto Branch_w:Branch_w.size
+
+# JVM.slaspec:1541
+# encoding: 8A  [in_lookup_switch=0, in_table_switch=0]
+l2d
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:8 = INT2FLOAT TMP1:8
+  SP = INT_SUB SP, 8
+  *SP = TMP2:8
+
+# JVM.slaspec:1550
+# encoding: 89  [in_lookup_switch=0, in_table_switch=0]
+l2f
+  TMP1:8 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:4 = INT2FLOAT TMP1:8
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+
+# JVM.slaspec:1559
+# encoding: 88  [in_lookup_switch=0, in_table_switch=0]
+l2i
+  TMP1:8 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:4 = COPY TMP3:4
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+
+# JVM.slaspec:1568
+# encoding: 61  [in_lookup_switch=0, in_table_switch=0]
+ladd
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:8 = COPY 0
+  TMP2:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP3:8 = INT_ADD TMP1:8, TMP2:8
+  SP = INT_SUB SP, 8
+  *SP = TMP3:8
+
+# JVM.slaspec:1579
+# encoding: 2F  [in_lookup_switch=0, in_table_switch=0]
+laload
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:8 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:4 = INT_MULT 8, TMP1:4
+  TMP5:4 = INT_ADD TMP2:4, TMP4:4
+  TMP3:8 = *TMP5:4
+  SP = INT_SUB SP, 8
+  *SP = TMP3:8
+
+# JVM.slaspec:1592
+# encoding: 7F  [in_lookup_switch=0, in_table_switch=0]
+land
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP3:8 = INT_AND TMP2:8, TMP1:8
+  SP = INT_SUB SP, 8
+  *SP = TMP3:8
+
+# JVM.slaspec:1603
+# encoding: 50  [in_lookup_switch=0, in_table_switch=0]
+lastore
+  TMP1:8 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:4 = INT_MULT 8, TMP2:4
+  TMP5:4 = INT_ADD TMP3:4, TMP4:4
+  *TMP5:4 = TMP1:8
+
+# JVM.slaspec:1616
+# encoding: 94  [in_lookup_switch=0, in_table_switch=0]
+lcmp
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP4:1 = INT_SLESS TMP1:8, TMP2:8
+  TMP5:4 = INT_ZEXT TMP4:1
+  TMP6:1 = INT_SLESSEQUAL TMP1:8, TMP2:8
+  TMP7:4 = INT_ZEXT TMP6:1
+  TMP8:4 = INT_ADD TMP5:4, TMP7:4
+  TMP3:4 = INT_SUB TMP8:4, 1
+  SP = INT_SUB SP, 4
+  *SP = TMP3:4
+
+# JVM.slaspec:1627
+# encoding: 09  [in_lookup_switch=0, in_table_switch=0]
+lconst_0
+  SP = INT_SUB SP, 8
+  *SP = 0
+
+# JVM.slaspec:1633
+# encoding: 0A  [in_lookup_switch=0, in_table_switch=0]
+lconst_1
+  SP = INT_SUB SP, 8
+  *SP = 1
+
+# JVM.slaspec:1639
+# encoding: 12  [in_lookup_switch=0, in_table_switch=0]
+ldc index
+  ldcCallOther(index:1)
+
+# JVM.slaspec:1644
+# encoding: 13  [in_lookup_switch=0, in_table_switch=0]
+ldc_w index
+  ldc_wCallOther(index:2)
+
+# JVM.slaspec:1649
+# encoding: 14  [in_lookup_switch=0, in_table_switch=0]
+ldc2_w index
+  ldc2_wCallOther(index:2)
+
+# JVM.slaspec:1654
+# encoding: 6D  [in_lookup_switch=0, in_table_switch=0]
+ldiv
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP3:8 = INT_SDIV TMP2:8, TMP1:8
+  SP = INT_SUB SP, 8
+  *SP = TMP3:8
+
+# JVM.slaspec:1665
+# encoding: 16  [in_lookup_switch=0, in_table_switch=0]
+lload index
+  LVA = INT_MULT index:4, 4
+  TMP1:8 = *LVA
+  SP = INT_SUB SP, 8
+  *SP = TMP1:8
+
+# JVM.slaspec:1672
+# encoding: 1E  [in_lookup_switch=0, in_table_switch=0]
+lload_0
+  LVA = COPY 0
+  TMP1:8 = *LVA
+  SP = INT_SUB SP, 8
+  *SP = TMP1:8
+
+# JVM.slaspec:1679
+# encoding: 1F  [in_lookup_switch=0, in_table_switch=0]
+lload_1
+  LVA = INT_MULT 1, 4
+  TMP1:8 = *LVA
+  SP = INT_SUB SP, 8
+  *SP = TMP1:8
+
+# JVM.slaspec:1686
+# encoding: 20  [in_lookup_switch=0, in_table_switch=0]
+lload_2
+  LVA = INT_MULT 2, 4
+  TMP1:8 = *LVA
+  SP = INT_SUB SP, 8
+  *SP = TMP1:8
+
+# JVM.slaspec:1693
+# encoding: 21  [in_lookup_switch=0, in_table_switch=0]
+lload_3
+  LVA = INT_MULT 3, 4
+  TMP1:8 = *LVA
+  SP = INT_SUB SP, 8
+  *SP = TMP1:8
+
+# JVM.slaspec:1700
+# encoding: 69  [in_lookup_switch=0, in_table_switch=0]
+lmul
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP3:8 = INT_MULT TMP2:8, TMP1:8
+  SP = INT_SUB SP, 8
+  *SP = TMP3:8
+
+# JVM.slaspec:1711
+# encoding: 75  [in_lookup_switch=0, in_table_switch=0]
+lneg
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:8 = INT_2COMP TMP1:8
+  SP = INT_SUB SP, 8
+  *SP = TMP2:8
+
+# JVM.slaspec:1730
+# encoding:  [in_lookup_switch=2, in_table_switch=0]
+LookupSwitch_match, instruction
+  # BUILD instruction
+  # BUILD LookupSwitch_match
+
+# JVM.slaspec:1735
+# encoding:  [in_lookup_switch=2, in_table_switch=0, switch_num=2147483648]
+LookupSwitch_match
+  # BUILD LookupSwitch_match
+
+# JVM.slaspec:1757
+# encoding: AB  [alignmentPad=0, in_lookup_switch=0, in_table_switch=0, padVal=0]
+lookupswitch dolookupswitch, instruction
+  # BUILD instruction
+  # BUILD dolookupswitch
+
+# JVM.slaspec:1761
+# encoding: AB  [alignmentPad=2, in_lookup_switch=0, in_table_switch=0, padVal=2]
+lookupswitch dolookupswitch, instruction
+  # BUILD instruction
+  # BUILD dolookupswitch
+
+# JVM.slaspec:1765
+# encoding: AB  [alignmentPad=1, in_lookup_switch=0, in_table_switch=0, padVal=1]
+lookupswitch dolookupswitch, instruction
+  # BUILD instruction
+  # BUILD dolookupswitch
+
+# JVM.slaspec:1769
+# encoding: AB  [alignmentPad=3, in_lookup_switch=0, in_table_switch=0, padVal=3]
+lookupswitch dolookupswitch, instruction
+  # BUILD instruction
+  # BUILD dolookupswitch
+
+# JVM.slaspec:1775
+# encoding: 81  [in_lookup_switch=0, in_table_switch=0]
+lor
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP3:8 = INT_OR TMP2:8, TMP1:8
+  SP = INT_SUB SP, 8
+  *SP = TMP3:8
+
+# JVM.slaspec:1786
+# encoding: 71  [in_lookup_switch=0, in_table_switch=0]
+lrem
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP3:8 = INT_SREM TMP2:8, TMP1:8
+  SP = INT_SUB SP, 8
+  *SP = TMP3:8
+
+# JVM.slaspec:1797
+# encoding: AD  [in_lookup_switch=0, in_table_switch=0]
+lreturn
+  cat2_return_value = *SP
+  SP = INT_ADD SP, 8
+  return return_address
+
+# JVM.slaspec:1803
+# encoding: 79  [in_lookup_switch=0, in_table_switch=0]
+lshl
+  TMP1:4 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:8 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP4:4 = INT_AND TMP1:4, 0x3f
+  TMP3:8 = INT_LEFT TMP2:8, TMP4:4
+  SP = INT_SUB SP, 8
+  *SP = TMP3:8
+
+# JVM.slaspec:1814
+# encoding: 7B  [in_lookup_switch=0, in_table_switch=0]
+lshr
+  TMP1:4 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:8 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP4:4 = INT_AND TMP1:4, 0x3f
+  TMP3:8 = INT_SRIGHT TMP2:8, TMP4:4
+  SP = INT_SUB SP, 8
+  *SP = TMP3:8
+
+# JVM.slaspec:1825
+# encoding: 37  [in_lookup_switch=0, in_table_switch=0]
+lstore index
+  TMP1:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  LVA = INT_MULT index:4, 4
+  *LVA = TMP1:8
+
+# JVM.slaspec:1833
+# encoding: 3F  [in_lookup_switch=0, in_table_switch=0]
+lstore_0
+  TMP1:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  LVA = COPY 0
+  *LVA = TMP1:8
+
+# JVM.slaspec:1841
+# encoding: 40  [in_lookup_switch=0, in_table_switch=0]
+lstore_1
+  TMP1:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  LVA = INT_MULT 1, 4
+  *LVA = TMP1:8
+
+# JVM.slaspec:1849
+# encoding: 41  [in_lookup_switch=0, in_table_switch=0]
+lstore_2
+  TMP1:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  LVA = INT_MULT 2, 4
+  *LVA = TMP1:8
+
+# JVM.slaspec:1857
+# encoding: 42  [in_lookup_switch=0, in_table_switch=0]
+lstore_3
+  TMP1:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  LVA = INT_MULT 3, 4
+  *LVA = TMP1:8
+
+# JVM.slaspec:1865
+# encoding: 65  [in_lookup_switch=0, in_table_switch=0]
+lsub
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP3:8 = INT_SUB TMP2:8, TMP1:8
+  SP = INT_SUB SP, 8
+  *SP = TMP3:8
+
+# JVM.slaspec:1876
+# encoding: 7D  [in_lookup_switch=0, in_table_switch=0]
+lushr
+  TMP1:4 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:8 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP4:4 = INT_AND TMP1:4, 0x3f
+  TMP3:8 = INT_RIGHT TMP2:8, TMP4:4
+  SP = INT_SUB SP, 8
+  *SP = TMP3:8
+
+# JVM.slaspec:1887
+# encoding: 83  [in_lookup_switch=0, in_table_switch=0]
+lxor
+  TMP1:8 = COPY 0
+  TMP2:8 = COPY 0
+  TMP3:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP2:8 = *SP
+  SP = INT_ADD SP, 8
+  TMP3:8 = INT_XOR TMP2:8, TMP1:8
+  SP = INT_SUB SP, 8
+  *SP = TMP3:8
+
+# JVM.slaspec:1898
+# encoding: C2  [in_lookup_switch=0, in_table_switch=0]
+monitorenter
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  monitorenterOp(TMP1:4)
+
+# JVM.slaspec:1905
+# encoding: C3  [in_lookup_switch=0, in_table_switch=0]
+monitorexit
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  monitorexitOp(TMP1:4)
+
+# JVM.slaspec:1912
+# encoding: C5  [in_lookup_switch=0, in_table_switch=0]
+multianewarray index
+  multianewarrayCallOther(index:2, dimensions:1)
+
+# JVM.slaspec:1917
+# encoding: BB  [in_lookup_switch=0, in_table_switch=0]
+new index
+  TMP1:4 = CPOOLREF 0, index:8, 13
+  TMP2:4 = NEW TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+
+# JVM.slaspec:1924
+# encoding: BC  [in_lookup_switch=0, in_table_switch=0]
+newarray atype
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = CPOOLREF 0, atype:1, 14
+  TMP2:4 = NEW TMP3:4, TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+
+# JVM.slaspec:1934
+# encoding: 00  [in_lookup_switch=0, in_table_switch=0]
+nop
+  # (no ops)
+
+# JVM.slaspec:1938
+# encoding: 57  [in_lookup_switch=0, in_table_switch=0]
+pop
+  SP = INT_ADD SP, 4
+
+# JVM.slaspec:1943
+# encoding: 58  [in_lookup_switch=0, in_table_switch=0]
+pop2
+  SP = INT_ADD SP, 8
+
+# JVM.slaspec:1948
+# encoding: B5  [in_lookup_switch=0, in_table_switch=0]
+putfield index
+  putFieldCallOther(index:2)
+
+# JVM.slaspec:1953
+# encoding: B3  [in_lookup_switch=0, in_table_switch=0]
+putstatic index
+  putStaticCallOther(index:2)
+
+# JVM.slaspec:1958
+# encoding: A9  [in_lookup_switch=0, in_table_switch=0]
+ret index
+  LVA = INT_MULT index:4, 4
+  TMP1:4 = *LVA
+  goto [TMP1:4]
+
+# JVM.slaspec:1965
+# encoding: B1  [in_lookup_switch=0, in_table_switch=0]
+return
+  return return_address
+
+# JVM.slaspec:1970
+# encoding: 35  [in_lookup_switch=0, in_table_switch=0]
+saload
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:2 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:4 = INT_MULT TMP1:4, 2
+  TMP5:4 = INT_ADD TMP2:4, TMP4:4
+  TMP3:2 = *TMP5:4
+  TMP6:4 = INT_SEXT TMP3:2
+  SP = INT_SUB SP, 4
+  *SP = TMP6:4
+
+# JVM.slaspec:1983
+# encoding: 56  [in_lookup_switch=0, in_table_switch=0]
+sastore
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP3:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP3:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP4:4 = INT_MULT TMP2:4, 2
+  TMP5:4 = INT_ADD TMP3:4, TMP4:4
+  *TMP5:4 = TMP6:2
+
+# JVM.slaspec:1995
+# encoding: 11  [in_lookup_switch=0, in_table_switch=0]
+sipush short
+  TMP1:4 = INT_SEXT short:2
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:2001
+# encoding: 5F  [in_lookup_switch=0, in_table_switch=0]
+swap
+  TMP1:4 = COPY 0
+  TMP2:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  TMP2:4 = *SP
+  SP = INT_ADD SP, 4
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+  SP = INT_SUB SP, 4
+  *SP = TMP2:4
+
+# JVM.slaspec:2023
+# encoding:  [in_lookup_switch=0, in_table_switch=2]
+Switch_offset, instruction
+  # BUILD instruction
+  # BUILD Switch_offset
+
+# JVM.slaspec:2028
+# encoding:  [in_lookup_switch=0, in_table_switch=2, switch_num=0]
+Switch_offset
+  # BUILD Switch_offset
+
+# JVM.slaspec:2048
+# encoding: AA  [alignmentPad=0, in_lookup_switch=0, in_table_switch=0, padVal=0]
+tableswitch dotableswitch, instruction
+  # BUILD instruction
+  # BUILD dotableswitch
+
+# JVM.slaspec:2052
+# encoding: AA  [alignmentPad=2, in_lookup_switch=0, in_table_switch=0, padVal=2]
+tableswitch dotableswitch, instruction
+  # BUILD instruction
+  # BUILD dotableswitch
+
+# JVM.slaspec:2056
+# encoding: AA  [alignmentPad=1, in_lookup_switch=0, in_table_switch=0, padVal=1]
+tableswitch dotableswitch, instruction
+  # BUILD instruction
+  # BUILD dotableswitch
+
+# JVM.slaspec:2060
+# encoding: AA  [alignmentPad=3, in_lookup_switch=0, in_table_switch=0, padVal=3]
+tableswitch dotableswitch, instruction
+  # BUILD instruction
+  # BUILD dotableswitch
+
+# JVM.slaspec:2066
+# encoding: C4 15  [in_lookup_switch=0, in_table_switch=0]
+wide_iload index
+  LVA = INT_MULT index:4, 4
+  TMP1:4 = *LVA
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:2073
+# encoding: C4 17  [in_lookup_switch=0, in_table_switch=0]
+wide_fload index
+  LVA = INT_MULT index:4, 4
+  TMP1:4 = *LVA
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:2080
+# encoding: C4 19  [in_lookup_switch=0, in_table_switch=0]
+wide_aload index
+  LVA = INT_MULT index:4, 4
+  TMP1:4 = *LVA
+  SP = INT_SUB SP, 4
+  *SP = TMP1:4
+
+# JVM.slaspec:2087
+# encoding: C4 16  [in_lookup_switch=0, in_table_switch=0]
+wide_lload index
+  LVA = INT_MULT index:4, 4
+  TMP1:8 = *LVA
+  SP = INT_SUB SP, 8
+  *SP = TMP1:8
+
+# JVM.slaspec:2094
+# encoding: C4 18  [in_lookup_switch=0, in_table_switch=0]
+wide_dload index
+  LVA = INT_MULT index:4, 4
+  TMP1:8 = *LVA
+  SP = INT_SUB SP, 8
+  *SP = TMP1:8
+
+# JVM.slaspec:2103
+# encoding: C4 36  [in_lookup_switch=0, in_table_switch=0]
+wide_istore index
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  LVA = INT_MULT index:4, 4
+  *LVA = TMP1:4
+
+# JVM.slaspec:2111
+# encoding: C4 38  [in_lookup_switch=0, in_table_switch=0]
+wide_fstore index
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  LVA = INT_MULT index:4, 4
+  *LVA = TMP1:4
+
+# JVM.slaspec:2119
+# encoding: C4 3A  [in_lookup_switch=0, in_table_switch=0]
+wide_astore index
+  TMP1:4 = COPY 0
+  TMP1:4 = *SP
+  SP = INT_ADD SP, 4
+  LVA = INT_MULT index:4, 4
+  *LVA = TMP1:4
+
+# JVM.slaspec:2127
+# encoding: C4 37  [in_lookup_switch=0, in_table_switch=0]
+wide_lstore index
+  TMP1:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  LVA = INT_MULT index:4, 4
+  *LVA = TMP1:8
+
+# JVM.slaspec:2135
+# encoding: C4 39  [in_lookup_switch=0, in_table_switch=0]
+wide_dstore index
+  TMP1:8 = COPY 0
+  TMP1:8 = *SP
+  SP = INT_ADD SP, 8
+  LVA = INT_MULT index:4, 4
+  *LVA = TMP1:8
+
+# JVM.slaspec:2144
+# encoding: C4 A9  [in_lookup_switch=0, in_table_switch=0]
+wide_ret index
+  LVA = INT_MULT index:4, 4
+  TMP1:4 = *LVA
+  goto [TMP1:4]
+
+# JVM.slaspec:2152
+# encoding: C4 84  [in_lookup_switch=0, in_table_switch=0]
+iinc_w index, constant
+  TMP1:4 = INT_ZEXT index:2
+  TMP2:4 = INT_MULT 4, TMP1:4
+  TMP3:4 = INT_SEXT constant:2
+  TMP4:4 = *TMP2:4
+  TMP5:4 = INT_ADD TMP4:4, TMP3:4
+  *TMP2:4 = TMP5:4
